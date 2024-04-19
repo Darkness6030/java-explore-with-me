@@ -27,9 +27,9 @@ public class StatsServiceImpl implements StatsService {
         List<StatHits> stats;
 
         if (unique) {
-            stats = statsServerRepository.findAllUniqueStatsWithUris(uris, start, end);
+            stats = statsServerRepository.findUniqueStatsWithUris(start, end, uris);
         } else {
-            stats = statsServerRepository.findAllStatsWithUris(uris, start, end);
+            stats = statsServerRepository.findAllStatsWithUris(start, end, uris);
         }
 
         return stats.stream().map(StatsServerMapper::toStatResponseDto).collect(Collectors.toList());
