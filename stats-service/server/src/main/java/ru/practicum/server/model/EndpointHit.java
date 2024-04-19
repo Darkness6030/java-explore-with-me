@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "endpoint_hits")
+@Table(name = "hits")
 @Data
 @Builder
 public class EndpointHit {
