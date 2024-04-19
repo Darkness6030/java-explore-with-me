@@ -1,27 +1,25 @@
 package ru.practicum.server.controller;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.dto.EndpointHitRequestDto;
-import ru.practicum.dto.StatResponseDto;
-import ru.practicum.server.service.StatService;
+import ru.practicum.dto.*;
+import ru.practicum.server.service.StatsService;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@RequiredArgsConstructor
 @RestController
-public class StatServerController {
-
-    private final StatService statService;
+public class StatsServerController {
+    @Autowired
+    private StatsService statsService;
 
     @PostMapping("/hit")
     @ResponseStatus(value = HttpStatus.CREATED)
     public void addHit(@RequestBody @Valid EndpointHitRequestDto requestDto) {
-        statService.addHit(requestDto);
+        statsService.addHit(requestDto);
     }
 
     @GetMapping("/stats")
@@ -29,6 +27,6 @@ public class StatServerController {
                                           @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
                                           @RequestParam(defaultValue = "") List<String> uris,
                                           @RequestParam(defaultValue = "false") boolean unique) {
-        return statService.getStats(start, end, uris, unique);
+        return statsService.getStats(start, end, uris, unique);
     }
 }
