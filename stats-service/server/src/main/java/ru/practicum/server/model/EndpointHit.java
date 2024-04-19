@@ -3,6 +3,8 @@ package ru.practicum.server.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,15 +16,19 @@ public class EndpointHit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
+    @NotBlank
+    @Column(name = "app")
     private String app;
 
-    @Column(nullable = false)
+    @NotBlank
+    @Column(name = "uri")
     private String uri;
 
-    @Column(nullable = false)
+    @NotBlank
+    @Column(name = "ip")
     private String ip;
 
-    @Column(nullable = false)
+    @NotNull
+    @Column(name = "timestamp")
     private LocalDateTime timestamp;
 }
