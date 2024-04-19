@@ -1,11 +1,13 @@
 package ru.practicum.server.repository;
 
 import org.springframework.data.jpa.repository.*;
+import org.springframework.stereotype.Repository;
 import ru.practicum.server.model.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Repository
 public interface StatsServerRepository extends JpaRepository<EndpointHit, Long> {
 
     @Query("SELECT new ru.practicum.server.model.StatHits(e.app, e.uri, COUNT(DISTINCT e.ip)) " +
