@@ -1,4 +1,4 @@
-package ru.practicum.mainservice.controller.publicapi;
+package ru.practicum.mainservice.controller.regular;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;

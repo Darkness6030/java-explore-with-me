@@ -1,4 +1,4 @@
-package ru.practicum.mainservice.controller.userapi;
+package ru.practicum.mainservice.controller.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

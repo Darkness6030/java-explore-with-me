@@ -18,7 +18,6 @@ public class ErrorHandler {
 
     @ExceptionHandler({NotFoundException.class})
     public ResponseEntity<ErrorResponseDto> notFoundExceptionHandler(RuntimeException e) {
-        log.error(e.getMessage());
         ErrorResponseDto errorResponseDto = ErrorResponseDto.builder()
                 .status("NOT_FOUND")
                 .reason("The required object was not found.")
@@ -31,7 +30,6 @@ public class ErrorHandler {
 
     @ExceptionHandler({DataIntegrityViolationException.class, ConflictException.class})
     public ResponseEntity<ErrorResponseDto> conflictExceptionHandler(Exception e) {
-        log.error(e.getMessage());
         ErrorResponseDto errorResponseDto = ErrorResponseDto.builder()
                 .status("CONFLICT")
                 .reason("Integrity constraint has been violated.")
@@ -47,7 +45,6 @@ public class ErrorHandler {
             MissingRequestHeaderException.class,
             ConstraintViolationException.class})
     public ResponseEntity<ErrorResponseDto> badRequestExceptionHandler(Exception e) {
-        log.error(e.getMessage());
         ErrorResponseDto errorResponseDto = ErrorResponseDto.builder()
                 .status("BAD_REQUEST")
                 .reason("Incorrectly made request.")

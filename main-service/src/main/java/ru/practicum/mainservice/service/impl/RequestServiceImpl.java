@@ -32,9 +32,11 @@ public class RequestServiceImpl implements RequestService {
         if (userId == event.getInitiator().getId()) {
             throw new ConflictException("Initiator of event cannot be requester");
         }
+
         if (!event.getState().equals(EventState.PUBLISHED)) {
             throw new ConflictException("Сan't participate in an unpublished event");
         }
+
         if (event.getParticipantLimit() != 0 &&
                 event.getParticipantLimit() == getCountOfConfirmedRequestsByEventId(eventId)) {
             throw new ConflictException("Participation limit expired");
@@ -72,7 +74,6 @@ public class RequestServiceImpl implements RequestService {
         validator.throwIfEventFromCorrectUserNotFoundOrReturnIfExist(eventId, userId);
 
         List<Request> requests = requestRepository.findAllByEventId(eventId);
-
         return RequestMapper.toListOfRequestDto(requests);
     }
 
