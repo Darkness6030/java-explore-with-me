@@ -1,0 +1,21 @@
+package ru.practicum.mainservice.repository;
+
+import org.springframework.data.jpa.repository.*;
+import ru.practicum.mainservice.model.*;
+
+import java.util.*;
+
+public interface RequestRepository extends JpaRepository<Request, Long> {
+    List<Request> findAllByEventId(long eventId);
+
+    List<Request> findAllByRequesterId(long userId);
+
+    List<Request> findAllByIdIn(List<Long> ids);
+
+    List<Request> findAllByEventIdInAndStatusEquals(List<Long> ids, RequestStatus status);
+
+    int countAllByEventIdAndStatusEquals(long eventId, RequestStatus status);
+
+    @Query("select r.event.id, count(r) from Request r where r.event.id in ?1 and r.status = ?2 group by r.event.id")
+    Map<Long, Integer> findAllConfirmedRequestsByEventIds(List<Long> ids, RequestStatus status);
+}
