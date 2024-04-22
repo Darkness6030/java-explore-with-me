@@ -1,23 +1,19 @@
 package ru.practicum.client;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
+import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
-import ru.practicum.dto.EndpointHitRequestDto;
-import ru.practicum.dto.StatResponseDto;
+import ru.practicum.dto.*;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class StatClient {
     private final RestTemplate restTemplate;
 
-    public StatClient(@Value("${stats-server.url}") String serverUrl, RestTemplateBuilder builder) {
+    public StatClient(String serverUrl, RestTemplateBuilder builder) {
         restTemplate = builder.uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl))
                 .requestFactory(HttpComponentsClientHttpRequestFactory::new)
                 .build();
