@@ -1,13 +1,10 @@
 package ru.practicum.mainservice.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.*;
 import ru.practicum.mainservice.dto.request.RequestCountDto;
-import ru.practicum.mainservice.model.Request;
-import ru.practicum.mainservice.model.RequestStatus;
+import ru.practicum.mainservice.model.*;
 
 import java.util.List;
-import java.util.Map;
 
 public interface RequestRepository extends JpaRepository<Request, Long> {
     List<Request> findAllByEventId(long eventId);
