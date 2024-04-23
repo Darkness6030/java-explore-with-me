@@ -60,18 +60,12 @@ public class Event {
     private String title;
 
     @Getter
+    @Setter
     @Transient
-    private int confirmedRequest;
+    private long confirmedRequest;
 
     @Getter
+    @Setter
     @Transient
     private long views;
-
-    public void setConfirmedRequest(int confirmedRequest) {
-        this.confirmedRequest = confirmedRequest;
-    }
-
-    public void setViews(long views) {
-        this.views = views;
-    }
 }

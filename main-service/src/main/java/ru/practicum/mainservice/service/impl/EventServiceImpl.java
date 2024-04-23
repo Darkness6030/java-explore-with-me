@@ -247,7 +247,8 @@ public class EventServiceImpl implements EventService {
         where.and(byEventDate);
 
         events = eventRepository.findAll(where, pageable).getContent();
-        if (events.size() == 0) throw new BadRequestException("No events found");
+        if (events.isEmpty()) throw new BadRequestException("No events found");
+
         addViewsAndConfirmedRequestsForEvents(events);
 
         if (onlyAvailable) {
@@ -299,12 +300,12 @@ public class EventServiceImpl implements EventService {
             ev.setViews(hits.getOrDefault(ev.getId(), 0L));
         }
 
-        Map<Long, Integer> confirmedRequests = requestRepository.findAllConfirmedRequestsByEventIds(ids, RequestStatus.CONFIRMED);
+        Map<Long, Long> confirmedRequests = requestRepository.findAllConfirmedRequestsByEventIds(ids, RequestStatus.CONFIRMED);
 
         confirmedRequests.forEach((id, amount) -> System.out.println("TESTING TEST: " + id + " " + amount));
 
         for (Event ev : events) {
-            ev.setConfirmedRequest(confirmedRequests.getOrDefault(ev.getId(), 0));
+            ev.setConfirmedRequest(confirmedRequests.getOrDefault(ev.getId(), 0L));
         }
     }
 }
