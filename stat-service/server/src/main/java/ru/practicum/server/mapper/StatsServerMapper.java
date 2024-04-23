@@ -1,13 +1,11 @@
 package ru.practicum.server.mapper;
 
 import lombok.experimental.UtilityClass;
-import ru.practicum.dto.EndpointHitRequestDto;
-import ru.practicum.dto.StatResponseDto;
-import ru.practicum.server.model.EndpointHit;
-import ru.practicum.server.model.StatHits;
+import ru.practicum.dto.*;
+import ru.practicum.server.model.*;
 
 @UtilityClass
-public class StatServerMapper {
+public class StatsServerMapper {
 
     public static EndpointHit toEndpointHit(EndpointHitRequestDto requestDto) {
         return EndpointHit.builder()
