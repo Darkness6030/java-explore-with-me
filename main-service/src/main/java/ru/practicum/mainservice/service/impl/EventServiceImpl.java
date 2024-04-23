@@ -294,8 +294,6 @@ public class EventServiceImpl implements EventService {
         List<Long> ids = events.stream().map(Event::getId).collect(Collectors.toList());
         Map<Long, Long> hits = getHits(ids);
 
-        Assert.noNullElements(ids, "No null IDs allowed!");
-
         for (Event ev : events) {
             ev.setViews(hits.getOrDefault(ev.getId(), 0L));
         }
@@ -307,7 +305,7 @@ public class EventServiceImpl implements EventService {
         });
 
         for (Event ev : events) {
-            ev.setConfirmedRequest(confirmedRequests.getOrDefault(ev.getId(), 0));
+            ev.setConfirmedRequest(confirmedRequests.getOrDefault(String.valueOf(ev.getId()), 0));
         }
     }
 }
