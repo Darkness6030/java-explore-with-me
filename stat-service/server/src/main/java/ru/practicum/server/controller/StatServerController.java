@@ -2,7 +2,7 @@ package ru.practicum.server.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.dto.*;
 import ru.practicum.server.service.StatsService;
@@ -24,14 +24,14 @@ public class StatServerController {
     }
 
     @GetMapping("/stats")
-    public List<StatResponseDto> getStats(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
-                                          @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
-                                          @RequestParam(defaultValue = "") List<String> uris,
-                                          @RequestParam(defaultValue = "false") boolean unique) {
+    public ResponseEntity<List<StatResponseDto>> getStats(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
+                                                         @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
+                                                         @RequestParam(defaultValue = "") List<String> uris,
+                                                         @RequestParam(defaultValue = "false") boolean unique) {
         if (end.isBefore(start)) {
-            throw new IllegalArgumentException("end cannot be before start");
+            return ResponseEntity.badRequest().build();
         }
 
-        return statService.getStats(start, end, uris, unique);
+        return ResponseEntity.ok(statService.getStats(start, end, uris, unique));
     }
 }
