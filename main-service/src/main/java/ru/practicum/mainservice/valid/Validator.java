@@ -2,9 +2,14 @@ package ru.practicum.mainservice.valid;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.practicum.mainservice.exception.*;
-import ru.practicum.mainservice.model.*;
-import ru.practicum.mainservice.repository.*;
+import ru.practicum.mainservice.exception.BadRequestException;
+import ru.practicum.mainservice.exception.NotFoundException;
+import ru.practicum.mainservice.model.Category;
+import ru.practicum.mainservice.model.Event;
+import ru.practicum.mainservice.model.User;
+import ru.practicum.mainservice.repository.CategoryRepository;
+import ru.practicum.mainservice.repository.EventRepository;
+import ru.practicum.mainservice.repository.UserRepository;
 
 import java.time.LocalDateTime;
 

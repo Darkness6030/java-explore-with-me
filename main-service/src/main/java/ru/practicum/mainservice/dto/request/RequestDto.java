@@ -1,7 +1,8 @@
 package ru.practicum.mainservice.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
 import ru.practicum.mainservice.model.RequestStatus;
 
 import java.time.LocalDateTime;

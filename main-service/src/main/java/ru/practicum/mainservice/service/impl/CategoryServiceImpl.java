@@ -1,15 +1,19 @@
 package ru.practicum.mainservice.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.mainservice.dto.category.*;
-import ru.practicum.mainservice.exception.*;
+import ru.practicum.mainservice.dto.category.CategoryCreationDto;
+import ru.practicum.mainservice.dto.category.CategoryDto;
+import ru.practicum.mainservice.exception.ConflictException;
+import ru.practicum.mainservice.exception.NotFoundException;
 import ru.practicum.mainservice.mapper.CategoryMapper;
 import ru.practicum.mainservice.model.Category;
 import ru.practicum.mainservice.pagination.OffsetBasedPageRequest;
-import ru.practicum.mainservice.repository.*;
+import ru.practicum.mainservice.repository.CategoryRepository;
+import ru.practicum.mainservice.repository.EventRepository;
 import ru.practicum.mainservice.service.CategoryService;
 
 import java.util.List;

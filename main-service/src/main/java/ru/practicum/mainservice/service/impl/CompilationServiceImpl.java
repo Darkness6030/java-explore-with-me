@@ -7,16 +7,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import ru.practicum.mainservice.constants.Constants;
-import ru.practicum.mainservice.dto.compilation.*;
+import ru.practicum.mainservice.dto.compilation.CompilationCreationDto;
+import ru.practicum.mainservice.dto.compilation.CompilationDto;
+import ru.practicum.mainservice.dto.compilation.UpdateCompilationRequestDto;
 import ru.practicum.mainservice.exception.NotFoundException;
 import ru.practicum.mainservice.mapper.CompilationMapper;
-import ru.practicum.mainservice.model.*;
+import ru.practicum.mainservice.model.Compilation;
+import ru.practicum.mainservice.model.Event;
+import ru.practicum.mainservice.model.QCompilation;
 import ru.practicum.mainservice.pagination.OffsetBasedPageRequest;
-import ru.practicum.mainservice.repository.*;
+import ru.practicum.mainservice.repository.CompilationRepository;
+import ru.practicum.mainservice.repository.EventRepository;
 import ru.practicum.mainservice.service.CompilationService;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Validated

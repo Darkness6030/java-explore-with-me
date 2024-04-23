@@ -1,7 +1,8 @@
 package ru.practicum.mainservice.dto.event;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.practicum.mainservice.dto.location.LocationDto;
 
 import javax.validation.constraints.*;

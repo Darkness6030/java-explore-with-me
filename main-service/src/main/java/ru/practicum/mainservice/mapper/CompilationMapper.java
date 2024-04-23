@@ -1,8 +1,11 @@
 package ru.practicum.mainservice.mapper;
 
 import lombok.experimental.UtilityClass;
-import ru.practicum.mainservice.dto.compilation.*;
-import ru.practicum.mainservice.model.*;
+import ru.practicum.mainservice.dto.compilation.CompilationCreationDto;
+import ru.practicum.mainservice.dto.compilation.CompilationDto;
+import ru.practicum.mainservice.dto.compilation.UpdateCompilationRequestDto;
+import ru.practicum.mainservice.model.Compilation;
+import ru.practicum.mainservice.model.Event;
 
 import java.util.Set;
 import java.util.stream.Collectors;

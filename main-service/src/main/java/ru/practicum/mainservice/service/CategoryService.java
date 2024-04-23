@@ -1,6 +1,7 @@
 package ru.practicum.mainservice.service;
 
-import ru.practicum.mainservice.dto.category.*;
+import ru.practicum.mainservice.dto.category.CategoryCreationDto;
+import ru.practicum.mainservice.dto.category.CategoryDto;
 
 import java.util.List;
 
