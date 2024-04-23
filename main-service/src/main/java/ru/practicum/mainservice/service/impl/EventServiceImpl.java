@@ -3,8 +3,7 @@ package ru.practicum.mainservice.service.impl;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -12,27 +11,18 @@ import ru.practicum.client.StatClient;
 import ru.practicum.dto.StatResponseDto;
 import ru.practicum.mainservice.constants.Constants;
 import ru.practicum.mainservice.dto.event.*;
-import ru.practicum.mainservice.exception.BadRequestException;
-import ru.practicum.mainservice.exception.ConflictException;
-import ru.practicum.mainservice.exception.NotFoundException;
-import ru.practicum.mainservice.mapper.DateTimeMapper;
-import ru.practicum.mainservice.mapper.EventMapper;
+import ru.practicum.mainservice.exception.*;
+import ru.practicum.mainservice.mapper.*;
 import ru.practicum.mainservice.model.*;
-import ru.practicum.mainservice.model.QEvent;
 import ru.practicum.mainservice.pagination.OffsetBasedPageRequest;
-import ru.practicum.mainservice.repository.CategoryRepository;
-import ru.practicum.mainservice.repository.EventRepository;
-import ru.practicum.mainservice.repository.RequestRepository;
+import ru.practicum.mainservice.repository.*;
 import ru.practicum.mainservice.service.EventService;
 import ru.practicum.mainservice.valid.Validator;
 
 import javax.validation.Valid;
 import java.beans.Transient;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -307,10 +297,9 @@ public class EventServiceImpl implements EventService {
             ev.setViews(hits.getOrDefault(ev.getId(), 0L));
         }
 
-        Map<Long, Integer> confirmedRequests = requestRepository.findAllConfirmedRequestsByEventIds(ids, RequestStatus.CONFIRMED)
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(entry -> Long.parseLong(entry.getKey()), Map.Entry::getValue));
+        Map<Long, Integer> confirmedRequests = requestRepository.findAllConfirmedRequestsByEventIds(ids, RequestStatus.CONFIRMED);
+
+        confirmedRequests.forEach((id, amount) -> System.out.println("TESTING TEST: " + id + " " + amount));
 
         for (Event ev : events) {
             ev.setConfirmedRequest(confirmedRequests.getOrDefault(ev.getId(), 0));
