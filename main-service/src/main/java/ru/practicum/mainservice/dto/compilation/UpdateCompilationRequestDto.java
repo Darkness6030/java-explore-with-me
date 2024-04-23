@@ -11,6 +11,6 @@ import java.util.Set;
 public class UpdateCompilationRequestDto {
     @Size(min = 2, max = 50)
     private String title;
-    private Boolean pinned;
     private Set<Long> events;
+    private Boolean pinned;
 }
