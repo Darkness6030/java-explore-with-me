@@ -62,7 +62,7 @@ public class Event {
     @Getter
     @Setter
     @Transient
-    private int confirmedRequest;
+    private long confirmedRequest;
 
     @Getter
     @Setter
