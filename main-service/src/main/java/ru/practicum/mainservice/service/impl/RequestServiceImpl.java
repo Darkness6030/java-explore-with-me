@@ -25,8 +25,8 @@ public class RequestServiceImpl implements RequestService {
     @Transactional
     @Override
     public RequestDto createRequest(long userId, long eventId) {
-        Event event = validator.throwIfEventNotFoundOrReturnIfExist(eventId);
-        User user = validator.throwIfUserNotFoundOrReturnIfExist(userId);
+        Event event = validator.findEventOrThrow(eventId);
+        User user = validator.findUserOrThrow(userId);
         Request request;
 
         if (userId == event.getInitiator().getId()) {
@@ -37,30 +37,17 @@ public class RequestServiceImpl implements RequestService {
             throw new ConflictException("Can't participate in an unpublished event");
         }
 
-        if (event.getParticipantLimit() != 0 &&
-                event.getParticipantLimit() == getCountOfConfirmedRequestsByEventId(eventId)) {
+        if (event.getParticipantLimit() != 0 && event.getParticipantLimit() == getCountOfConfirmedRequestsByEventId(eventId)) {
             throw new ConflictException("Participation limit expired");
         }
 
         if (!event.isRequestModeration()) {
-            request = Request.builder()
-                    .event(event)
-                    .requester(user)
-                    .status(RequestStatus.CONFIRMED)
-                    .build();
+            request = Request.builder().event(event).requester(user).status(RequestStatus.CONFIRMED).build();
         } else {
             if (event.getParticipantLimit() == 0) {
-                request = Request.builder()
-                        .event(event)
-                        .requester(user)
-                        .status(RequestStatus.CONFIRMED)
-                        .build();
+                request = Request.builder().event(event).requester(user).status(RequestStatus.CONFIRMED).build();
             } else {
-                request = Request.builder()
-                        .event(event)
-                        .requester(user)
-                        .status(RequestStatus.PENDING)
-                        .build();
+                request = Request.builder().event(event).requester(user).status(RequestStatus.PENDING).build();
             }
         }
 
@@ -71,7 +58,7 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public List<RequestDto> getRequestsByEventId(long userId, long eventId) {
-        validator.throwIfEventFromCorrectUserNotFoundOrReturnIfExist(eventId, userId);
+        validator.findUserEventOrThrow(eventId, userId);
 
         List<Request> requests = requestRepository.findAllByEventId(eventId);
 
@@ -88,12 +75,10 @@ public class RequestServiceImpl implements RequestService {
     @Transactional
     @Override
     public RequestDto cancelRequest(long userId, long requestId) {
-        Request request = requestRepository.findById(requestId)
-                .orElseThrow(() -> new NotFoundException(String.format("Request with id=%d was not found", requestId)));
+        Request request = requestRepository.findById(requestId).orElseThrow(() -> new NotFoundException(String.format("Request with id=%d was not found", requestId)));
 
         if (request.getRequester().getId() != userId) {
-            throw new ConflictException(String.format("User with id: %d is not the requester" +
-                    " of the event and cannot cancel the request", userId));
+            throw new ConflictException(String.format("User with id: %d is not the requester" + " of the event and cannot cancel the request", userId));
         }
 
         request.setStatus(RequestStatus.CANCELED);
@@ -103,15 +88,11 @@ public class RequestServiceImpl implements RequestService {
 
     @Transactional
     @Override
-    public @Valid RequestStatusUpdateResultDto updateRequestsStatus(long userId, long eventId,
-                                                                    RequestStatusUpdateRequestDto updateDto) {
-        Event event = validator.throwIfEventFromCorrectUserNotFoundOrReturnIfExist(eventId, userId);
+    public @Valid RequestStatusUpdateResultDto updateRequestsStatus(long userId, long eventId, RequestStatusUpdateRequestDto updateDto) {
+        Event event = validator.findUserEventOrThrow(eventId, userId);
         List<Request> requests = requestRepository.findAllByIdIn(updateDto.getRequestIds());
 
-        RequestStatusUpdateResultDto resultDto = RequestStatusUpdateResultDto.builder()
-                .confirmedRequests(new ArrayList<>())
-                .rejectedRequests(new ArrayList<>())
-                .build();
+        RequestStatusUpdateResultDto resultDto = RequestStatusUpdateResultDto.builder().confirmedRequests(new ArrayList<>()).rejectedRequests(new ArrayList<>()).build();
 
         if (!event.isRequestModeration() || event.getParticipantLimit() == 0) {
             resultDto.getConfirmedRequests().addAll(RequestMapper.toListOfRequestDto(requests));

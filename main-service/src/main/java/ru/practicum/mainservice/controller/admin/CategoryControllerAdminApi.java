@@ -1,4 +1,4 @@
-package ru.practicum.mainservice.controller.adminapi;
+package ru.practicum.mainservice.controller.admin;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,8 +30,7 @@ public class CategoryControllerAdminApi {
     }
 
     @PatchMapping("/categories/{catId}")
-    public CategoryDto updateCategory(@PathVariable @Positive int catId,
-                                      @RequestBody @Valid CategoryCreationDto categoryCreationDto) {
+    public CategoryDto updateCategory(@PathVariable @Positive int catId, @RequestBody @Valid CategoryCreationDto categoryCreationDto) {
         return categoryService.updateCategory(catId, categoryCreationDto);
     }
 }

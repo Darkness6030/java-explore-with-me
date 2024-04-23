@@ -1,4 +1,4 @@
-package ru.practicum.mainservice.controller.publicapi;
+package ru.practicum.mainservice.controller.regular;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -16,9 +16,7 @@ public class CompilationControllerPublicApi {
     private final CompilationService compilationService;
 
     @GetMapping("/compilations")
-    public List<CompilationDto> getCompilations(@RequestParam(required = false) Boolean pinned,
-                                                @RequestParam(defaultValue = "0") @PositiveOrZero int from,
-                                                @RequestParam(defaultValue = "10") @Positive int size) {
+    public List<CompilationDto> getCompilations(@RequestParam(required = false) Boolean pinned, @RequestParam(defaultValue = "0") @PositiveOrZero int from, @RequestParam(defaultValue = "10") @Positive int size) {
         return compilationService.getCompilations(pinned, from, size);
     }
 

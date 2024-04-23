@@ -11,41 +11,41 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @Component
 public class Validator {
-    private final UserRepository userRepository;
-    private final CategoryRepository categoryRepository;
-    private final EventRepository eventRepository;
+    private final UserRepository userRepo;
+    private final CategoryRepository catRepo;
+    private final EventRepository eventRepo;
 
-    public static void throwIfEventDateIsNotLaterOneHourAfterNow(LocalDateTime eventDate) {
-        LocalDateTime timestamp = LocalDateTime.now().plusHours(1);
-        if (eventDate.isBefore(timestamp)) {
-            throw new BadRequestException("Event cannot start earlier than 1 hours from now");
+    public static void checkEvent1HrAhead(LocalDateTime eventDate) {
+        LocalDateTime minTime = LocalDateTime.now().plusHours(1);
+        if (eventDate.isBefore(minTime)) {
+            throw new BadRequestException("Event must start at least 1 hour from now");
         }
     }
 
-    public static void throwIfEventDateIsNotLaterTwoHoursAfterNow(LocalDateTime eventDate) {
-        LocalDateTime timestamp = LocalDateTime.now().plusHours(2);
-        if (eventDate.isBefore(timestamp)) {
-            throw new BadRequestException("Event cannot start earlier than 2 hours from now");
+    public static void checkEvent2HrsAhead(LocalDateTime eventDate) {
+        LocalDateTime minTime = LocalDateTime.now().plusHours(2);
+        if (eventDate.isBefore(minTime)) {
+            throw new BadRequestException("Event must start at least 2 hours from now");
         }
     }
 
-    public User throwIfUserNotFoundOrReturnIfExist(long userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException(String.format("User with id=%d was not found", userId)));
+    public User findUserOrThrow(long userId) {
+        return userRepo.findById(userId)
+                .orElseThrow(() -> new NotFoundException("User id=" + userId + " not found"));
     }
 
-    public Category throwIfCategoryNotFoundOrReturnIfExist(int categoryId) {
-        return categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new NotFoundException(String.format("Category with id=%d was not found", categoryId)));
+    public Category findCatOrThrow(int categoryId) {
+        return catRepo.findById(categoryId)
+                .orElseThrow(() -> new NotFoundException("Category id=" + categoryId + " not found"));
     }
 
-    public Event throwIfEventFromCorrectUserNotFoundOrReturnIfExist(long eventId, long userId) {
-        return eventRepository.findByIdAndInitiatorId(eventId, userId)
-                .orElseThrow(() -> new NotFoundException(String.format("Event with id=%d was not found", eventId)));
+    public Event findUserEventOrThrow(long eventId, long userId) {
+        return eventRepo.findByIdAndInitiatorId(eventId, userId)
+                .orElseThrow(() -> new NotFoundException("Event id=" + eventId + " not found"));
     }
 
-    public Event throwIfEventNotFoundOrReturnIfExist(long eventId) {
-        return eventRepository.findById(eventId)
-                .orElseThrow(() -> new NotFoundException(String.format("Event with id=%d was not found", eventId)));
+    public Event findEventOrThrow(long eventId) {
+        return eventRepo.findById(eventId)
+                .orElseThrow(() -> new NotFoundException("Event id=" + eventId + " not found"));
     }
 }

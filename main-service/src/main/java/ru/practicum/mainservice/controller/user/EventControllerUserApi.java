@@ -1,4 +1,4 @@
-package ru.practicum.mainservice.controller.userapi;
+package ru.practicum.mainservice.controller.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,28 +20,22 @@ public class EventControllerUserApi {
 
     @PostMapping("/{userId}/events")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public EventFullDto addEvent(@PathVariable @Positive long userId,
-                                 @RequestBody @Valid EventCreationDto eventCreationDto) {
+    public EventFullDto addEvent(@PathVariable @Positive long userId, @RequestBody @Valid EventCreationDto eventCreationDto) {
         return eventService.addEvent(userId, eventCreationDto);
     }
 
     @GetMapping("/{userId}/events")
-    public List<EventShortDto> getAllUserEvents(@PathVariable @Positive long userId,
-                                                @RequestParam(defaultValue = "0") @PositiveOrZero int from,
-                                                @RequestParam(defaultValue = "10") @Positive int size) {
+    public List<EventShortDto> getAllUserEvents(@PathVariable @Positive long userId, @RequestParam(defaultValue = "0") @PositiveOrZero int from, @RequestParam(defaultValue = "10") @Positive int size) {
         return eventService.getAllUserEvents(userId, from, size);
     }
 
     @GetMapping("/{userId}/events/{eventId}")
-    public EventFullDto getEventByUserAndEventId(@PathVariable @Positive long userId,
-                                                 @PathVariable @Positive long eventId) {
+    public EventFullDto getEventByUserAndEventId(@PathVariable @Positive long userId, @PathVariable @Positive long eventId) {
         return eventService.getEventByUserAndEventId(userId, eventId);
     }
 
     @PatchMapping("/{userId}/events/{eventId}")
-    public EventFullDto updateEventByUserIdAndEventId(@PathVariable @Positive long userId,
-                                                      @PathVariable @Positive long eventId,
-                                                      @RequestBody @Valid UpdateEventRequestDto updateEventRequestDto) {
+    public EventFullDto updateEventByUserIdAndEventId(@PathVariable @Positive long userId, @PathVariable @Positive long eventId, @RequestBody @Valid UpdateEventRequestDto updateEventRequestDto) {
         return eventService.updateEventByUserIdAndEventId(userId, eventId, updateEventRequestDto);
     }
 }

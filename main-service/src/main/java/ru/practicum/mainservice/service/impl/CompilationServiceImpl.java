@@ -56,8 +56,7 @@ public class CompilationServiceImpl implements CompilationService {
     @Transactional
     @Override
     public @Valid CompilationDto updateCompilation(int compId, UpdateCompilationRequestDto updateCompilationRequestDto) {
-        Compilation compilation = compilationRepository.findById(compId)
-                .orElseThrow(() -> new NotFoundException(String.format("Compilation with id=%d was not found", compId)));
+        Compilation compilation = compilationRepository.findById(compId).orElseThrow(() -> new NotFoundException(String.format("Compilation with id=%d was not found", compId)));
 
         Set<Long> idEvents = updateCompilationRequestDto.getEvents();
         Set<Event> events = new HashSet<>();
@@ -88,8 +87,7 @@ public class CompilationServiceImpl implements CompilationService {
 
     @Override
     public CompilationDto getCompilationById(int compId) {
-        Compilation compilation = compilationRepository.findById(compId)
-                .orElseThrow(() -> new NotFoundException(String.format("Compilation with id=%d was not found", compId)));
+        Compilation compilation = compilationRepository.findById(compId).orElseThrow(() -> new NotFoundException(String.format("Compilation with id=%d was not found", compId)));
 
         return CompilationMapper.toCompilationDto(compilation);
     }

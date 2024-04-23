@@ -10,11 +10,7 @@ public class DateTimeMapper {
 
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    public static String fromLocalDateTimeToString(LocalDateTime localDateTime) {
+    public static String fromLocalDateTime(LocalDateTime localDateTime) {
         return localDateTime.format(FORMATTER);
-    }
-
-    public static LocalDateTime toLocalDateTime(String str) {
-        return LocalDateTime.parse(str, FORMATTER);
     }
 }

@@ -9,6 +9,7 @@ import javax.validation.constraints.*;
 public class UserShortDto {
     @Positive
     private long id;
+
     @NotBlank
     private String name;
 }

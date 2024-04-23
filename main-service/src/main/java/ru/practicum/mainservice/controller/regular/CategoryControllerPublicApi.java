@@ -1,4 +1,4 @@
-package ru.practicum.mainservice.controller.publicapi;
+package ru.practicum.mainservice.controller.regular;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -16,8 +16,7 @@ public class CategoryControllerPublicApi {
     private final CategoryService categoryService;
 
     @GetMapping("/categories")
-    public List<CategoryDto> getCategories(@RequestParam(defaultValue = "0") @PositiveOrZero int from,
-                                           @RequestParam(defaultValue = "10") @Positive int size) {
+    public List<CategoryDto> getCategories(@RequestParam(defaultValue = "0") @PositiveOrZero int from, @RequestParam(defaultValue = "10") @Positive int size) {
         return categoryService.getCategories(from, size);
     }
 

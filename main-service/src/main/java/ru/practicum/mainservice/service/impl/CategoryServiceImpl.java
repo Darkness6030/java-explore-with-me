@@ -46,8 +46,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     @Override
     public CategoryDto updateCategory(int catId, CategoryCreationDto categoryCreationDto) {
-        Category category = categoryRepository.findById(catId)
-                .orElseThrow(() -> new NotFoundException(String.format("Category with id=%d was not found", catId)));
+        Category category = categoryRepository.findById(catId).orElseThrow(() -> new NotFoundException(String.format("Category with id=%d was not found", catId)));
 
         category.setName(categoryCreationDto.getName());
 
@@ -57,14 +56,12 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryDto> getCategories(int from, int size) {
         Pageable pageable = new OffsetBasedPageRequest(from, size, Sort.by(Sort.Direction.ASC, "id"));
-        return categoryRepository.findAll(pageable).getContent().stream()
-                .map(CategoryMapper::toCategoryDto).collect(Collectors.toList());
+        return categoryRepository.findAll(pageable).getContent().stream().map(CategoryMapper::toCategoryDto).collect(Collectors.toList());
     }
 
     @Override
     public CategoryDto getCategory(int catId) {
-        Category category = categoryRepository.findById(catId)
-                .orElseThrow(() -> new NotFoundException(String.format("Category with id=%d was not found", catId)));
+        Category category = categoryRepository.findById(catId).orElseThrow(() -> new NotFoundException(String.format("Category with id=%d was not found", catId)));
         return CategoryMapper.toCategoryDto(category);
     }
 }

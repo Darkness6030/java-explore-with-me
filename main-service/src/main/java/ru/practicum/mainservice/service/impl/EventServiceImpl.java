@@ -42,7 +42,7 @@ public class EventServiceImpl implements EventService {
 
         if (updateEventRequestDto.getEventDate() != null) {
             eventDate = updateEventRequestDto.getEventDate();
-            Validator.throwIfEventDateIsNotLaterOneHourAfterNow(eventDate);
+            Validator.checkEvent1HrAhead(eventDate);
         }
 
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new NotFoundException(String.format("Event with id=%d was not found", eventId)));
@@ -107,6 +107,7 @@ public class EventServiceImpl implements EventService {
         } else {
             byEventDate = QEvent.event.eventDate.between(rangeStart, rangeEnd);
         }
+
         where.and(byEventDate);
         events = eventRepository.findAll(where, pageable).getContent();
 
@@ -119,12 +120,12 @@ public class EventServiceImpl implements EventService {
     @Override
     public @Valid EventFullDto addEvent(long userId, EventCreationDto eventCreationDto) {
         LocalDateTime eventDate = eventCreationDto.getEventDate();
-        Validator.throwIfEventDateIsNotLaterTwoHoursAfterNow(eventDate);
+        Validator.checkEvent2HrsAhead(eventDate);
 
-        User user = validator.throwIfUserNotFoundOrReturnIfExist(userId);
+        User user = validator.findUserOrThrow(userId);
 
         int categoryId = eventCreationDto.getCategory();
-        Category category = validator.throwIfCategoryNotFoundOrReturnIfExist(categoryId);
+        Category category = validator.findCatOrThrow(categoryId);
 
         Event event = EventMapper.toEvent(eventCreationDto);
         event.setEventDate(eventDate);
@@ -150,7 +151,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public EventFullDto getEventByUserAndEventId(long userId, long eventId) {
-        Event event = validator.throwIfEventFromCorrectUserNotFoundOrReturnIfExist(eventId, userId);
+        Event event = validator.findUserEventOrThrow(eventId, userId);
 
         addViewsAndConfirmedRequestsForEvents(List.of(event));
 
@@ -163,7 +164,7 @@ public class EventServiceImpl implements EventService {
         LocalDateTime eventDate = null;
         if (updateEventRequestDto.getEventDate() != null) {
             eventDate = updateEventRequestDto.getEventDate();
-            Validator.throwIfEventDateIsNotLaterTwoHoursAfterNow(eventDate);
+            Validator.checkEvent2HrsAhead(eventDate);
         }
 
         String stateAction = updateEventRequestDto.getStateAction();
@@ -180,10 +181,10 @@ public class EventServiceImpl implements EventService {
 
         Category category = null;
         if (updateEventRequestDto.getCategory() != null) {
-            category = validator.throwIfCategoryNotFoundOrReturnIfExist(updateEventRequestDto.getCategory());
+            category = validator.findCatOrThrow(updateEventRequestDto.getCategory());
         }
 
-        Event event = validator.throwIfEventFromCorrectUserNotFoundOrReturnIfExist(eventId, userId);
+        Event event = validator.findUserEventOrThrow(eventId, userId);
         if (!event.getInitiator().getId().equals(userId)) throw new ConflictException("user not found");
         if (event.getState().equals(EventState.PUBLISHED)) throw new ConflictException("already published");
 
@@ -272,7 +273,7 @@ public class EventServiceImpl implements EventService {
         List<String> uris = ids.stream().map(id -> String.format("/events/%d", id)).collect(Collectors.toList());
         List<StatResponseDto> stats;
 
-        stats = statClient.getStats(DateTimeMapper.fromLocalDateTimeToString(LocalDateTime.now().minusYears(10)), DateTimeMapper.fromLocalDateTimeToString(LocalDateTime.now().plusYears(10)), uris, true);
+        stats = statClient.getStats(DateTimeMapper.fromLocalDateTime(LocalDateTime.now().minusYears(10)), DateTimeMapper.fromLocalDateTime(LocalDateTime.now().plusYears(10)), uris, true);
 
         Map<Long, Long> hits = new HashMap<>();
         for (StatResponseDto stat : stats) {

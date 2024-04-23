@@ -11,13 +11,7 @@ import java.util.stream.Collectors;
 public class RequestMapper {
 
     public static RequestDto toRequestDto(Request request) {
-        return RequestDto.builder()
-                .id(request.getId())
-                .event(request.getEvent().getId())
-                .requester(request.getRequester().getId())
-                .created(request.getCreated())
-                .status(request.getStatus())
-                .build();
+        return RequestDto.builder().id(request.getId()).event(request.getEvent().getId()).requester(request.getRequester().getId()).created(request.getCreated()).status(request.getStatus()).build();
     }
 
     public static List<RequestDto> toListOfRequestDto(List<Request> requests) {

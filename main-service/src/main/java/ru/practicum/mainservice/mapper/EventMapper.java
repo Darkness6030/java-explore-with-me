@@ -13,61 +13,21 @@ import java.util.stream.Collectors;
 public class EventMapper {
 
     public static Event toEvent(EventCreationDto eventCreationDto) {
-        return Event.builder()
-                .annotation(eventCreationDto.getAnnotation())
-                .description(eventCreationDto.getDescription())
-                .lon(eventCreationDto.getLocation().getLon())
-                .lat(eventCreationDto.getLocation().getLat())
-                .paid(eventCreationDto.isPaid())
-                .participantLimit(eventCreationDto.getParticipantLimit())
-                .requestModeration(eventCreationDto.isRequestModeration())
-                .title(eventCreationDto.getTitle())
-                .build();
+        return Event.builder().annotation(eventCreationDto.getAnnotation()).description(eventCreationDto.getDescription()).lon(eventCreationDto.getLocation().getLon()).lat(eventCreationDto.getLocation().getLat()).paid(eventCreationDto.isPaid()).participantLimit(eventCreationDto.getParticipantLimit()).requestModeration(eventCreationDto.isRequestModeration()).title(eventCreationDto.getTitle()).build();
     }
 
     public static EventFullDto toEventFullDto(Event event) {
-        return EventFullDto.builder()
-                .id(event.getId())
-                .annotation(event.getAnnotation())
-                .category(CategoryMapper.toCategoryDto(event.getCategory()))
-                .createdOn(event.getCreatedOn())
-                .description(event.getDescription())
-                .eventDate(event.getEventDate())
-                .initiator(UserMapper.toUserShortDto(event.getInitiator()))
-                .location(LocationDto.builder()
-                        .lat(event.getLat())
-                        .lon(event.getLon())
-                        .build())
-                .confirmedRequests(event.getConfirmedRequest())
-                .paid(event.isPaid())
-                .participantLimit(event.getParticipantLimit())
-                .publishedOn(event.getPublishedOn())
-                .requestModeration(event.isRequestModeration())
-                .state(event.getState())
-                .title(event.getTitle())
-                .views(event.getViews())
-                .build();
+        return EventFullDto.builder().id(event.getId()).annotation(event.getAnnotation()).category(CategoryMapper.toCategoryDto(event.getCategory())).createdOn(event.getCreatedOn()).description(event.getDescription()).eventDate(event.getEventDate()).initiator(UserMapper.toUserShortDto(event.getInitiator())).location(LocationDto.builder().lat(event.getLat()).lon(event.getLon()).build()).confirmedRequests(event.getConfirmedRequest()).paid(event.isPaid()).participantLimit(event.getParticipantLimit()).publishedOn(event.getPublishedOn()).requestModeration(event.isRequestModeration()).state(event.getState()).title(event.getTitle()).views(event.getViews()).build();
     }
 
     public static EventShortDto toEventShortDto(Event event) {
-        return EventShortDto.builder()
-                .id(event.getId())
-                .annotation(event.getAnnotation())
-                .category(CategoryMapper.toCategoryDto(event.getCategory()))
-                .eventDate(event.getEventDate())
-                .initiator(UserMapper.toUserShortDto(event.getInitiator()))
-                .paid(event.isPaid())
-                .title(event.getTitle())
-                .build();
+        return EventShortDto.builder().id(event.getId()).annotation(event.getAnnotation()).category(CategoryMapper.toCategoryDto(event.getCategory())).eventDate(event.getEventDate()).initiator(UserMapper.toUserShortDto(event.getInitiator())).paid(event.isPaid()).title(event.getTitle()).build();
     }
 
-    public static Event fromUpdateDtoToEvent(UpdateEventRequestDto updateDto, Event event,
-                                             Category category, LocalDateTime eventDate, StateAction stateAction) {
-        event.setAnnotation((updateDto.getAnnotation() == null || updateDto.getAnnotation().isBlank())
-                ? event.getAnnotation() : updateDto.getAnnotation());
+    public static Event fromUpdateDtoToEvent(UpdateEventRequestDto updateDto, Event event, Category category, LocalDateTime eventDate, StateAction stateAction) {
+        event.setAnnotation((updateDto.getAnnotation() == null || updateDto.getAnnotation().isBlank()) ? event.getAnnotation() : updateDto.getAnnotation());
         event.setCategory(category == null ? event.getCategory() : category);
-        event.setDescription((updateDto.getDescription() == null || updateDto.getDescription().isBlank())
-                ? event.getDescription() : updateDto.getDescription());
+        event.setDescription((updateDto.getDescription() == null || updateDto.getDescription().isBlank()) ? event.getDescription() : updateDto.getDescription());
         event.setEventDate(eventDate == null ? event.getEventDate() : eventDate);
         event.setLat(updateDto.getLocation() == null ? event.getLat() : updateDto.getLocation().getLat());
         event.setLon(updateDto.getLocation() == null ? event.getLon() : updateDto.getLocation().getLon());

@@ -1,4 +1,4 @@
-package ru.practicum.mainservice.controller.userapi;
+package ru.practicum.mainservice.controller.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,8 +20,7 @@ public class RequestControllerUserApi {
 
     @PostMapping("/{userId}/requests")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public RequestDto createRequest(@PathVariable @Positive long userId,
-                                    @RequestParam @Positive long eventId) {
+    public RequestDto createRequest(@PathVariable @Positive long userId, @RequestParam @Positive long eventId) {
         return requestService.createRequest(userId, eventId);
     }
 
@@ -31,21 +30,17 @@ public class RequestControllerUserApi {
     }
 
     @PatchMapping("/{userId}/requests/{requestId}/cancel")
-    public RequestDto cancelRequest(@PathVariable @Positive long userId,
-                                    @PathVariable @Positive long requestId) {
+    public RequestDto cancelRequest(@PathVariable @Positive long userId, @PathVariable @Positive long requestId) {
         return requestService.cancelRequest(userId, requestId);
     }
 
     @GetMapping("/{userId}/events/{eventId}/requests")
-    public List<RequestDto> getRequestsByEventId(@PathVariable @Positive long userId,
-                                                 @PathVariable @Positive long eventId) {
+    public List<RequestDto> getRequestsByEventId(@PathVariable @Positive long userId, @PathVariable @Positive long eventId) {
         return requestService.getRequestsByEventId(userId, eventId);
     }
 
     @PatchMapping("/{userId}/events/{eventId}/requests")
-    public RequestStatusUpdateResultDto updateRequestsStatus(@PathVariable @Positive long userId,
-                                                             @PathVariable @Positive long eventId,
-                                                             @RequestBody @Valid RequestStatusUpdateRequestDto updateDto) {
+    public RequestStatusUpdateResultDto updateRequestsStatus(@PathVariable @Positive long userId, @PathVariable @Positive long eventId, @RequestBody @Valid RequestStatusUpdateRequestDto updateDto) {
         return requestService.updateRequestsStatus(userId, eventId, updateDto);
     }
 }
