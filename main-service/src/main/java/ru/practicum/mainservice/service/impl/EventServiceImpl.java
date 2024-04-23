@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 import ru.practicum.client.StatClient;
 import ru.practicum.dto.StatResponseDto;
@@ -246,7 +247,8 @@ public class EventServiceImpl implements EventService {
         where.and(byEventDate);
 
         events = eventRepository.findAll(where, pageable).getContent();
-        if (events.size() == 0) throw new BadRequestException("No events found");
+        if (events.isEmpty()) throw new BadRequestException("No events found");
+
         addViewsAndConfirmedRequestsForEvents(events);
 
         if (onlyAvailable) {
@@ -274,8 +276,7 @@ public class EventServiceImpl implements EventService {
 
     private Map<Long, Long> getHits(List<Long> ids) {
         List<String> uris = ids.stream().map(id -> String.format("/events/%d", id)).collect(Collectors.toList());
-        List<StatResponseDto> stats = new ArrayList<>();
-
+        List<StatResponseDto> stats;
 
         stats = statClient.getStats(DateTimeMapper.fromLocalDateTimeToString(LocalDateTime.now().minusYears(10)),
                 DateTimeMapper.fromLocalDateTimeToString(LocalDateTime.now().plusYears(10)), uris, true);
@@ -293,13 +294,17 @@ public class EventServiceImpl implements EventService {
         List<Long> ids = events.stream().map(Event::getId).collect(Collectors.toList());
         Map<Long, Long> hits = getHits(ids);
 
+        Assert.noNullElements(ids, "No null IDs allowed!");
+
         for (Event ev : events) {
             ev.setViews(hits.getOrDefault(ev.getId(), 0L));
         }
 
         Map<Long, Integer> confirmedRequests = requestRepository.findAllConfirmedRequestsByEventIds(ids, RequestStatus.CONFIRMED);
 
-        confirmedRequests.forEach((id, amount) -> System.out.println("TESTING TEST: " + id + " " + amount));
+        confirmedRequests.entrySet().forEach(entry -> {
+            System.out.println("TESTING TEST: " + entry);
+        });
 
         for (Event ev : events) {
             ev.setConfirmedRequest(confirmedRequests.getOrDefault(ev.getId(), 0));
