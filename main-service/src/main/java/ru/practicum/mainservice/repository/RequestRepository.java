@@ -17,6 +17,6 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
 
     int countAllByEventIdAndStatusEquals(long eventId, RequestStatus status);
 
-    @Query("SELECT new ru.practicum.mainservice.dto.request.RequestCountDto(r.event.id, CAST(COUNT(r) AS integer)) FROM Request r WHERE r.event.id IN :ids AND r.status = :status GROUP BY r.event.id")
+    @Query("SELECT new ru.practicum.mainservice.dto.request.RequestCountDto(r.event.id, COUNT(r)) FROM Request r WHERE r.event.id IN :ids AND r.status = :status GROUP BY r.event.id")
     List<RequestCountDto> findAllConfirmedRequestsByEventIds(List<Long> ids, RequestStatus status);
 }

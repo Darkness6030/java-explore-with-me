@@ -7,5 +7,5 @@ import lombok.*;
 @AllArgsConstructor
 public class RequestCountDto {
     private Long id;
-    private int count;
+    private long count;
 }

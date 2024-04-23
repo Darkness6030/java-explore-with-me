@@ -291,7 +291,7 @@ public class EventServiceImpl implements EventService {
             event.setViews(hits.getOrDefault(event.getId(), 0L));
         }
 
-        Map<Long, Integer> confirmedRequests = requestRepository.findAllConfirmedRequestsByEventIds(ids, RequestStatus.CONFIRMED).stream().collect(Collectors.toMap(RequestCountDto::getId, RequestCountDto::getCount));
+        Map<Long, Long> confirmedRequests = requestRepository.findAllConfirmedRequestsByEventIds(ids, RequestStatus.CONFIRMED).stream().collect(Collectors.toMap(RequestCountDto::getId, RequestCountDto::getCount));
 
         confirmedRequests.entrySet().forEach(entry -> {
             System.out.println("TESTING TEST: " + entry);
@@ -300,7 +300,7 @@ public class EventServiceImpl implements EventService {
         for (Event event : events) {
             System.out.println(event.getId() + " " + confirmedRequests.containsKey(event.getId()) + " " + confirmedRequests);
 
-            event.setConfirmedRequest(confirmedRequests.getOrDefault(event.getId(), 0));
+            event.setConfirmedRequest(confirmedRequests.getOrDefault(event.getId(), 0L));
         }
     }
 }
