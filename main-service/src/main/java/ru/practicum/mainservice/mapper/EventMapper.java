@@ -38,6 +38,7 @@ public class EventMapper {
                         .lat(event.getLat())
                         .lon(event.getLon())
                         .build())
+                .confirmedRequests(event.getConfirmedRequest())
                 .paid(event.isPaid())
                 .participantLimit(event.getParticipantLimit())
                 .publishedOn(event.getPublishedOn())
