@@ -11,6 +11,7 @@ import ru.practicum.client.StatClient;
 import ru.practicum.dto.StatResponseDto;
 import ru.practicum.mainservice.constants.Constants;
 import ru.practicum.mainservice.dto.event.*;
+import ru.practicum.mainservice.dto.request.RequestCountDto;
 import ru.practicum.mainservice.exception.*;
 import ru.practicum.mainservice.mapper.*;
 import ru.practicum.mainservice.model.*;
@@ -297,14 +298,16 @@ public class EventServiceImpl implements EventService {
             ev.setViews(hits.getOrDefault(ev.getId(), 0L));
         }
 
-        Map<String, Integer> confirmedRequests = requestRepository.findAllConfirmedRequestsByEventIds(ids, RequestStatus.CONFIRMED);
+        Map<Long, Integer> confirmedRequests = requestRepository.findAllConfirmedRequestsByEventIds(ids, RequestStatus.CONFIRMED)
+                .stream()
+                .collect(Collectors.toMap(RequestCountDto::getId, RequestCountDto::getCount));
 
         confirmedRequests.entrySet().forEach(entry -> {
             System.out.println("TESTING TEST: " + entry);
         });
 
         for (Event ev : events) {
-            ev.setConfirmedRequest(confirmedRequests.getOrDefault(String.valueOf(ev.getId()), 0));
+            ev.setConfirmedRequest(confirmedRequests.getOrDefault(ev.getId(), 0));
         }
     }
 }

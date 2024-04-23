@@ -2,6 +2,7 @@ package ru.practicum.mainservice.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import ru.practicum.mainservice.dto.request.RequestCountDto;
 import ru.practicum.mainservice.model.Request;
 import ru.practicum.mainservice.model.RequestStatus;
 
@@ -19,6 +20,6 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
 
     int countAllByEventIdAndStatusEquals(long eventId, RequestStatus status);
 
-    @Query("select r.event.id as id, cast(count(r) as integer) from Request r where r.event.id in ?1 and r.status = ?2 group by r.event.id")
-    Map<String, Integer> findAllConfirmedRequestsByEventIds(List<Long> ids, RequestStatus status);
+    @Query("SELECT new ru.practicum.mainservice.dto.request.RequestCountDto(r.event.id, COUNT(r)) FROM Request r WHERE r.event.id IN :ids AND r.status = :status GROUP BY r.event.id")
+    List<RequestCountDto> findAllConfirmedRequestsByEventIds(List<Long> ids, RequestStatus status);
 }
