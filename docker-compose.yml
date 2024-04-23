@@ -20,7 +20,7 @@ services:
     environment:
       - POSTGRES_DB=ewm-stat-service
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=iamroot
+      - POSTGRES_PASSWORD=postgres
 
   ewm-service:
     build: ./main-service
@@ -43,4 +43,4 @@ services:
     environment:
       - POSTGRES_DB=ewm-main-service
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=iamroot
+      - POSTGRES_PASSWORD=postgres
