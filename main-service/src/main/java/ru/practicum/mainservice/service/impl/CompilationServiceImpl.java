@@ -2,11 +2,10 @@ package ru.practicum.mainservice.service.impl;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import ru.practicum.mainservice.constants.Constants;
 import ru.practicum.mainservice.dto.compilation.*;
 import ru.practicum.mainservice.exception.NotFoundException;
 import ru.practicum.mainservice.mapper.CompilationMapper;
@@ -74,8 +73,8 @@ public class CompilationServiceImpl implements CompilationService {
 
     @Override
     public List<CompilationDto> getCompilations(Boolean pinned, int from, int size) {
-        Pageable pageable = new OffsetBasedPageRequest(from, size, Constants.SORT_BY_ID_DESC);
-        List<Compilation> compilations = new ArrayList<>();
+        Pageable pageable = new OffsetBasedPageRequest(from, size, Sort.by(Sort.Direction.DESC, "id"));
+        List<Compilation> compilations;
 
         if (pinned != null) {
             BooleanExpression byPinned = QCompilation.compilation.pinned.eq(pinned);

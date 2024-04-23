@@ -4,12 +4,12 @@ import org.springframework.data.domain.*;
 
 public class OffsetBasedPageRequest implements Pageable {
 
-    private int offset;
+    private final int offset;
 
-    private int limit;
+    private final int limit;
 
     // Constructor could be expanded if sorting is needed
-    private Sort sort;
+    private final Sort sort;
 
     public OffsetBasedPageRequest(int offset, int limit, Sort sort) {
         if (limit < 1) {

@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import ru.practicum.client.StatClient;
 import ru.practicum.dto.StatResponseDto;
-import ru.practicum.mainservice.constants.Constants;
 import ru.practicum.mainservice.dto.event.*;
 import ru.practicum.mainservice.dto.request.RequestCountDto;
 import ru.practicum.mainservice.exception.*;
@@ -46,8 +45,7 @@ public class EventServiceImpl implements EventService {
             Validator.throwIfEventDateIsNotLaterOneHourAfterNow(eventDate);
         }
 
-        Event event = eventRepository.findById(eventId)
-                .orElseThrow(() -> new NotFoundException(String.format("Event with id=%d was not found", eventId)));
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new NotFoundException(String.format("Event with id=%d was not found", eventId)));
 
         StateAction state = null;
         String stateAction = updateEventRequestDto.getStateAction();
@@ -69,8 +67,7 @@ public class EventServiceImpl implements EventService {
         Category category = null;
         if (updateEventRequestDto.getCategory() != null) {
             int idCat = updateEventRequestDto.getCategory();
-            category = categoryRepository.findById(idCat)
-                    .orElseThrow(() -> new NotFoundException(String.format("Category with id=%d was not found", idCat)));
+            category = categoryRepository.findById(idCat).orElseThrow(() -> new NotFoundException(String.format("Category with id=%d was not found", idCat)));
         }
 
         EventMapper.fromUpdateDtoToEvent(updateEventRequestDto, event, category, eventDate, state);
@@ -81,10 +78,9 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<EventFullDto> getEventsAdminApi(List<Long> users, List<EventState> states, List<Integer> categories,
-                                                LocalDateTime rangeStart, LocalDateTime rangeEnd, int from, int size) {
+    public List<EventFullDto> getEventsAdminApi(List<Long> users, List<EventState> states, List<Integer> categories, LocalDateTime rangeStart, LocalDateTime rangeEnd, int from, int size) {
         List<Event> events;
-        Pageable pageable = new OffsetBasedPageRequest(from, size, Constants.SORT_BY_ID_DESC);
+        Pageable pageable = new OffsetBasedPageRequest(from, size, Sort.by(Sort.Direction.DESC, "id"));
         BooleanBuilder where = new BooleanBuilder();
 
         if (!users.isEmpty()) {
@@ -143,7 +139,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<EventShortDto> getAllUserEvents(long userId, int from, int size) {
-        Pageable pageable = new OffsetBasedPageRequest(from, size, Constants.SORT_BY_ID_DESC);
+        Pageable pageable = new OffsetBasedPageRequest(from, size, Sort.by(Sort.Direction.DESC, "id"));
 
         List<Event> events = eventRepository.findAllByInitiatorId(userId, pageable).getContent();
 
@@ -201,25 +197,24 @@ public class EventServiceImpl implements EventService {
 
     @Transient
     @Override
-    public List<EventShortDto> getEventsPublicApi(String text, List<Integer> categories, Boolean paid, LocalDateTime rangeStart,
-                                                  LocalDateTime rangeEnd, boolean onlyAvailable, String sort, int from, int size) {
+    public List<EventShortDto> getEventsPublicApi(String text, List<Integer> categories, Boolean paid, LocalDateTime rangeStart, LocalDateTime rangeEnd, boolean onlyAvailable, String sort, int from, int size) {
         List<Event> events;
-        Sort sortOption = Constants.SORT_BY_ID_DESC;
+        Sort sortOption = Sort.by(Sort.Direction.DESC, "id");
+
         if (sort.equals(EventSortOption.EVENT_DATE.toString())) {
             sortOption = Sort.by(Sort.Direction.ASC, "eventDate");
         } else if (sort.equals(EventSortOption.VIEWS.toString())) {
             sortOption = Sort.by(Sort.Direction.DESC, "views");
         }
-        Pageable pageable = new OffsetBasedPageRequest(from, size, sortOption);
 
+        Pageable pageable = new OffsetBasedPageRequest(from, size, sortOption);
         BooleanBuilder where = new BooleanBuilder();
 
         BooleanExpression byPublishState = QEvent.event.state.eq(EventState.PUBLISHED);
         where.and(byPublishState);
 
         if (!text.isBlank()) {
-            BooleanExpression byText = QEvent.event.annotation.containsIgnoreCase(text)
-                    .or(QEvent.event.description.containsIgnoreCase(text));
+            BooleanExpression byText = QEvent.event.annotation.containsIgnoreCase(text).or(QEvent.event.description.containsIgnoreCase(text));
             where.and(byText);
         }
 
@@ -244,6 +239,7 @@ public class EventServiceImpl implements EventService {
         } else {
             byEventDate = QEvent.event.eventDate.between(rangeStart, rangeEnd);
         }
+
         where.and(byEventDate);
 
         events = eventRepository.findAll(where, pageable).getContent();
@@ -252,8 +248,7 @@ public class EventServiceImpl implements EventService {
         addViewsAndConfirmedRequestsForEvents(events);
 
         if (onlyAvailable) {
-            events = events.stream().filter(ev -> ev.getConfirmedRequest() != ev.getParticipantLimit())
-                    .collect(Collectors.toList());
+            events = events.stream().filter(event -> event.getConfirmedRequest() != event.getParticipantLimit()).collect(Collectors.toList());
         }
 
         return EventMapper.toListOfEventShortDto(events);
@@ -262,8 +257,7 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transient
     public EventFullDto getEventById(long eventId) {
-        Event event = eventRepository.findById(eventId)
-                .orElseThrow(() -> new NotFoundException(String.format("Event with id=%d was not found", eventId)));
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new NotFoundException(String.format("Event with id=%d was not found", eventId)));
 
         if (!event.getState().equals(EventState.PUBLISHED)) {
             throw new NotFoundException("Event is not available because it has not been published yet");
@@ -278,8 +272,7 @@ public class EventServiceImpl implements EventService {
         List<String> uris = ids.stream().map(id -> String.format("/events/%d", id)).collect(Collectors.toList());
         List<StatResponseDto> stats;
 
-        stats = statClient.getStats(DateTimeMapper.fromLocalDateTimeToString(LocalDateTime.now().minusYears(10)),
-                DateTimeMapper.fromLocalDateTimeToString(LocalDateTime.now().plusYears(10)), uris, true);
+        stats = statClient.getStats(DateTimeMapper.fromLocalDateTimeToString(LocalDateTime.now().minusYears(10)), DateTimeMapper.fromLocalDateTimeToString(LocalDateTime.now().plusYears(10)), uris, true);
 
         Map<Long, Long> hits = new HashMap<>();
         for (StatResponseDto stat : stats) {
@@ -294,20 +287,20 @@ public class EventServiceImpl implements EventService {
         List<Long> ids = events.stream().map(Event::getId).collect(Collectors.toList());
         Map<Long, Long> hits = getHits(ids);
 
-        for (Event ev : events) {
-            ev.setViews(hits.getOrDefault(ev.getId(), 0L));
+        for (Event event : events) {
+            event.setViews(hits.getOrDefault(event.getId(), 0L));
         }
 
-        Map<Long, Integer> confirmedRequests = requestRepository.findAllConfirmedRequestsByEventIds(ids, RequestStatus.CONFIRMED)
-                .stream()
-                .collect(Collectors.toMap(RequestCountDto::getId, RequestCountDto::getCount));
+        Map<Long, Integer> confirmedRequests = requestRepository.findAllConfirmedRequestsByEventIds(ids, RequestStatus.CONFIRMED).stream().collect(Collectors.toMap(RequestCountDto::getId, RequestCountDto::getCount));
 
         confirmedRequests.entrySet().forEach(entry -> {
             System.out.println("TESTING TEST: " + entry);
         });
 
-        for (Event ev : events) {
-            ev.setConfirmedRequest(confirmedRequests.getOrDefault(ev.getId(), 0));
+        for (Event event : events) {
+            System.out.println(event.getId() + " " + confirmedRequests.containsKey(event.getId()) + " " + confirmedRequests);
+
+            event.setConfirmedRequest(confirmedRequests.getOrDefault(event.getId(), 0));
         }
     }
 }
