@@ -28,6 +28,10 @@ public class StatServerController {
                                           @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
                                           @RequestParam(defaultValue = "") List<String> uris,
                                           @RequestParam(defaultValue = "false") boolean unique) {
+        if (end.isBefore(start)) {
+            throw new IllegalArgumentException("end cannot be before start");
+        }
+
         return statService.getStats(start, end, uris, unique);
     }
 }
