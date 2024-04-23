@@ -13,8 +13,10 @@ import java.util.List;
 public class CompilationDto {
     @Positive
     private int id;
-    private List<EventShortDto> events;
-    private boolean pinned;
+
     @NotBlank
     private String title;
+
+    private List<EventShortDto> events;
+    private boolean pinned;
 }
