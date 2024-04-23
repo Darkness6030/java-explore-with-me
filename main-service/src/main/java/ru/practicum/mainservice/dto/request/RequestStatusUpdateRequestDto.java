@@ -1,7 +1,6 @@
 package ru.practicum.mainservice.dto.request;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;

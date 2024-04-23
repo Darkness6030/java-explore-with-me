@@ -1,7 +1,6 @@
 package ru.practicum.mainservice.dto.error;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 @Data
 @Builder

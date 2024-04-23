@@ -1,11 +1,9 @@
 package ru.practicum.mainservice.dto.compilation;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import ru.practicum.mainservice.dto.event.EventShortDto;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.*;
 import java.util.List;
 
 @Data

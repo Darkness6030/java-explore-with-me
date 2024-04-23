@@ -1,10 +1,8 @@
 package ru.practicum.mainservice.dto.user;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.*;
 
 @Data
 @Builder

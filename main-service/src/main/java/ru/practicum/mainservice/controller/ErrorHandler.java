@@ -2,16 +2,11 @@ package ru.practicum.mainservice.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.MissingRequestHeaderException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.http.*;
+import org.springframework.web.bind.*;
+import org.springframework.web.bind.annotation.*;
 import ru.practicum.mainservice.dto.error.ErrorResponseDto;
-import ru.practicum.mainservice.exception.BadRequestException;
-import ru.practicum.mainservice.exception.ConflictException;
-import ru.practicum.mainservice.exception.NotFoundException;
+import ru.practicum.mainservice.exception.*;
 import ru.practicum.mainservice.mapper.DateTimeMapper;
 
 import javax.validation.ConstraintViolationException;

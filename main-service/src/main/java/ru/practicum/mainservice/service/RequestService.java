@@ -1,8 +1,6 @@
 package ru.practicum.mainservice.service;
 
-import ru.practicum.mainservice.dto.request.RequestDto;
-import ru.practicum.mainservice.dto.request.RequestStatusUpdateRequestDto;
-import ru.practicum.mainservice.dto.request.RequestStatusUpdateResultDto;
+import ru.practicum.mainservice.dto.request.*;
 
 import java.util.List;
 

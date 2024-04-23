@@ -1,7 +1,6 @@
 package ru.practicum.mainservice.dto.compilation;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import javax.validation.constraints.Size;
 import java.util.Set;

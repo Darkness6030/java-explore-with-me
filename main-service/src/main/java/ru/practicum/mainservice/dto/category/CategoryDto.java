@@ -1,7 +1,6 @@
 package ru.practicum.mainservice.dto.category;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 @Data

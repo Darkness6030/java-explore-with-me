@@ -3,14 +3,12 @@ package ru.practicum.mainservice.controller.adminapi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.mainservice.dto.event.EventFullDto;
-import ru.practicum.mainservice.dto.event.UpdateEventRequestDto;
+import ru.practicum.mainservice.dto.event.*;
 import ru.practicum.mainservice.model.EventState;
 import ru.practicum.mainservice.service.EventService;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.List;
 

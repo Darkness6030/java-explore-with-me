@@ -1,8 +1,7 @@
 package ru.practicum.mainservice.mapper;
 
 import lombok.experimental.UtilityClass;
-import ru.practicum.mainservice.dto.user.UserFullDto;
-import ru.practicum.mainservice.dto.user.UserShortDto;
+import ru.practicum.mainservice.dto.user.*;
 import ru.practicum.mainservice.model.User;
 
 @UtilityClass

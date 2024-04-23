@@ -1,7 +1,6 @@
 package ru.practicum.mainservice.pagination;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 
 public class OffsetBasedPageRequest implements Pageable {
 

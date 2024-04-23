@@ -4,12 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import ru.practicum.mainservice.dto.request.RequestDto;
-import ru.practicum.mainservice.dto.request.RequestStatusUpdateRequestDto;
-import ru.practicum.mainservice.dto.request.RequestStatusUpdateResultDto;
-import ru.practicum.mainservice.dto.request.StatusOfUpdateRequest;
-import ru.practicum.mainservice.exception.ConflictException;
-import ru.practicum.mainservice.exception.NotFoundException;
+import ru.practicum.mainservice.dto.request.*;
+import ru.practicum.mainservice.exception.*;
 import ru.practicum.mainservice.mapper.RequestMapper;
 import ru.practicum.mainservice.model.*;
 import ru.practicum.mainservice.repository.RequestRepository;
@@ -17,8 +13,7 @@ import ru.practicum.mainservice.service.RequestService;
 import ru.practicum.mainservice.valid.Validator;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Validated
 @Service
@@ -37,9 +32,11 @@ public class RequestServiceImpl implements RequestService {
         if (userId == event.getInitiator().getId()) {
             throw new ConflictException("Initiator of event cannot be requester");
         }
+
         if (!event.getState().equals(EventState.PUBLISHED)) {
-            throw new ConflictException("Сan't participate in an unpublished event");
+            throw new ConflictException("Can't participate in an unpublished event");
         }
+
         if (event.getParticipantLimit() != 0 &&
                 event.getParticipantLimit() == getCountOfConfirmedRequestsByEventId(eventId)) {
             throw new ConflictException("Participation limit expired");
@@ -148,11 +145,11 @@ public class RequestServiceImpl implements RequestService {
                 resultDto.getRejectedRequests().add(RequestMapper.toRequestDto(request));
             }
         }
+
         return resultDto;
     }
 
     private int getCountOfConfirmedRequestsByEventId(long eventId) {
-        return requestRepository.countAllByEventIdAndStatusEquals(eventId,
-                RequestStatus.CONFIRMED);
+        return requestRepository.countAllByEventIdAndStatusEquals(eventId, RequestStatus.CONFIRMED);
     }
 }

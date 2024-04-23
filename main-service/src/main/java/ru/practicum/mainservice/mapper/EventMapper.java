@@ -1,15 +1,9 @@
 package ru.practicum.mainservice.mapper;
 
 import lombok.experimental.UtilityClass;
-import ru.practicum.mainservice.dto.event.EventCreationDto;
-import ru.practicum.mainservice.dto.event.EventFullDto;
-import ru.practicum.mainservice.dto.event.EventShortDto;
-import ru.practicum.mainservice.dto.event.UpdateEventRequestDto;
+import ru.practicum.mainservice.dto.event.*;
 import ru.practicum.mainservice.dto.location.LocationDto;
-import ru.practicum.mainservice.model.Category;
-import ru.practicum.mainservice.model.Event;
-import ru.practicum.mainservice.model.EventState;
-import ru.practicum.mainservice.model.StateAction;
+import ru.practicum.mainservice.model.*;
 
 import java.time.LocalDateTime;
 import java.util.List;

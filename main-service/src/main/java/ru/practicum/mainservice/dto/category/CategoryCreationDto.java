@@ -2,8 +2,7 @@ package ru.practicum.mainservice.dto.category;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Data
 public class CategoryCreationDto {
