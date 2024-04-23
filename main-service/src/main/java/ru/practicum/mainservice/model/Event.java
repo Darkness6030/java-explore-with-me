@@ -59,22 +59,16 @@ public class Event {
 
     private String title;
 
+    @Getter
     @Transient
     private int confirmedRequest;
 
+    @Getter
     @Transient
     private long views;
 
-    public long getConfirmedRequest() {
-        return confirmedRequest;
-    }
-
     public void setConfirmedRequest(int confirmedRequest) {
         this.confirmedRequest = confirmedRequest;
-    }
-
-    public long getViews() {
-        return views;
     }
 
     public void setViews(long views) {

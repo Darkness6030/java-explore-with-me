@@ -19,6 +19,6 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
 
     int countAllByEventIdAndStatusEquals(long eventId, RequestStatus status);
 
-    @Query("select r.event.id, count(r) from Request r where r.event.id in ?1 and r.status = ?2 group by r.event.id")
+    @Query("select r.event.id, cast(count(r) as integer) from Request r where r.event.id in ?1 and r.status = ?2 group by r.event.id")
     Map<Long, Integer> findAllConfirmedRequestsByEventIds(List<Long> ids, RequestStatus status);
 }
