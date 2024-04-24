@@ -48,8 +48,12 @@ public class EventControllerPublicApi {
     }
 
     private void sendRequestToStatService(HttpServletRequest request) {
-        EndpointHitRequestDto endpointHitRequestDto = EndpointHitRequestDto.builder().app(serviceName)
-                .ip(request.getRemoteAddr()).uri(request.getRequestURI()).timestamp(LocalDateTime.now()).build();
+        EndpointHitRequestDto endpointHitRequestDto = EndpointHitRequestDto.builder()
+                .app(serviceName)
+                .ip(request.getRemoteAddr())
+                .uri(request.getRequestURI())
+                .timestamp(LocalDateTime.now())
+                .build();
 
         statClient.addHit(endpointHitRequestDto);
     }

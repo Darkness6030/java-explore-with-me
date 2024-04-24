@@ -56,7 +56,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryDto> getCategories(int from, int size) {
         Pageable pageable = new OffsetBasedPageRequest(from, size, Sort.by(Sort.Direction.ASC, "id"));
-        return categoryRepository.findAll(pageable).getContent().stream().map(CategoryMapper::toCategoryDto)
+        return categoryRepository.findAll(pageable)
+                .getContent()
+                .stream()
+                .map(CategoryMapper::toCategoryDto)
                 .collect(Collectors.toList());
     }
 

@@ -77,12 +77,16 @@ public class CompilationServiceImpl implements CompilationService {
 
         if (pinned != null) {
             BooleanExpression byPinned = QCompilation.compilation.pinned.eq(pinned);
-            compilations = compilationRepository.findAll(byPinned, pageable).getContent();
+            compilations = compilationRepository.findAll(byPinned, pageable)
+                    .getContent();
         } else {
-            compilations = compilationRepository.findAll(pageable).getContent();
+            compilations = compilationRepository.findAll(pageable)
+                    .getContent();
         }
 
-        return compilations.stream().map(CompilationMapper::toCompilationDto).collect(Collectors.toList());
+        return compilations.stream()
+                .map(CompilationMapper::toCompilationDto)
+                .collect(Collectors.toList());
     }
 
     @Override
