@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 import ru.practicum.client.StatClient;
 import ru.practicum.dto.StatResponseDto;
 import ru.practicum.mainservice.dto.event.*;
@@ -19,7 +18,6 @@ import ru.practicum.mainservice.repository.*;
 import ru.practicum.mainservice.service.EventService;
 import ru.practicum.mainservice.valid.Validator;
 
-import javax.validation.Valid;
 import java.beans.Transient;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -27,7 +25,6 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Validated
 public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final CategoryRepository categoryRepository;
@@ -37,7 +34,7 @@ public class EventServiceImpl implements EventService {
 
     @Transactional
     @Override
-    public @Valid EventFullDto updateEventByEventId(long eventId, UpdateEventRequestDto updateEventRequestDto) {
+    public EventFullDto updateEventByEventId(long eventId, UpdateEventRequestDto updateEventRequestDto) {
         LocalDateTime eventDate = null;
 
         if (updateEventRequestDto.getEventDate() != null) {
@@ -45,13 +42,15 @@ public class EventServiceImpl implements EventService {
             Validator.checkEvent1HrAhead(eventDate);
         }
 
-        Event event = eventRepository.findById(eventId).orElseThrow(() -> new NotFoundException(String.format("Event with id=%d was not found", eventId)));
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new NotFoundException(String.format("Event with id=%d was not found", eventId)));
 
         StateAction state = null;
         String stateAction = updateEventRequestDto.getStateAction();
 
         if (stateAction != null) {
-            if (!StateAction.PUBLISH_EVENT.toString().equals(stateAction) && !StateAction.REJECT_EVENT.toString().equals(stateAction)) {
+            if (!StateAction.PUBLISH_EVENT.toString().equals(stateAction) && !StateAction.REJECT_EVENT.toString()
+                    .equals(stateAction)) {
                 throw new ConflictException("Field StateAction is incorrect");
             }
             state = StateAction.valueOf(stateAction);
@@ -67,7 +66,8 @@ public class EventServiceImpl implements EventService {
         Category category = null;
         if (updateEventRequestDto.getCategory() != null) {
             int idCat = updateEventRequestDto.getCategory();
-            category = categoryRepository.findById(idCat).orElseThrow(() -> new NotFoundException(String.format("Category with id=%d was not found", idCat)));
+            category = categoryRepository.findById(idCat)
+                    .orElseThrow(() -> new NotFoundException(String.format("Category with id=%d was not found", idCat)));
         }
 
         EventMapper.fromUpdateDtoToEvent(updateEventRequestDto, event, category, eventDate, state);
@@ -78,7 +78,8 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<EventFullDto> getEventsAdminApi(List<Long> users, List<EventState> states, List<Integer> categories, LocalDateTime rangeStart, LocalDateTime rangeEnd, int from, int size) {
+    public List<EventFullDto> getEventsAdminApi(List<Long> users, List<EventState> states, List<Integer> categories,
+                                                LocalDateTime rangeStart, LocalDateTime rangeEnd, int from, int size) {
         List<Event> events;
         Pageable pageable = new OffsetBasedPageRequest(from, size, Sort.by(Sort.Direction.DESC, "id"));
         BooleanBuilder where = new BooleanBuilder();
@@ -118,7 +119,7 @@ public class EventServiceImpl implements EventService {
 
     @Transactional
     @Override
-    public @Valid EventFullDto addEvent(long userId, EventCreationDto eventCreationDto) {
+    public EventFullDto addEvent(long userId, EventCreationDto eventCreationDto) {
         LocalDateTime eventDate = eventCreationDto.getEventDate();
         Validator.checkEvent2HrsAhead(eventDate);
 
@@ -160,7 +161,8 @@ public class EventServiceImpl implements EventService {
 
     @Transactional
     @Override
-    public @Valid EventFullDto updateEventByUserIdAndEventId(long userId, long eventId, UpdateEventRequestDto updateEventRequestDto) {
+    public EventFullDto updateEventByUserIdAndEventId(long userId, long eventId,
+                                                      UpdateEventRequestDto updateEventRequestDto) {
         LocalDateTime eventDate = null;
         if (updateEventRequestDto.getEventDate() != null) {
             eventDate = updateEventRequestDto.getEventDate();
@@ -169,7 +171,8 @@ public class EventServiceImpl implements EventService {
 
         String stateAction = updateEventRequestDto.getStateAction();
         if (stateAction != null) {
-            if (!StateAction.SEND_TO_REVIEW.toString().equals(stateAction) && !StateAction.CANCEL_REVIEW.toString().equals(stateAction)) {
+            if (!StateAction.SEND_TO_REVIEW.toString().equals(stateAction) && !StateAction.CANCEL_REVIEW.toString()
+                    .equals(stateAction)) {
                 throw new ConflictException("Field StateAction is incorrect");
             }
         }
@@ -198,7 +201,9 @@ public class EventServiceImpl implements EventService {
 
     @Transient
     @Override
-    public List<EventShortDto> getEventsPublicApi(String text, List<Integer> categories, Boolean paid, LocalDateTime rangeStart, LocalDateTime rangeEnd, boolean onlyAvailable, String sort, int from, int size) {
+    public List<EventShortDto> getEventsPublicApi(String text, List<Integer> categories, Boolean paid,
+                                                  LocalDateTime rangeStart, LocalDateTime rangeEnd,
+                                                  boolean onlyAvailable, String sort, int from, int size) {
         List<Event> events;
         Sort sortOption = Sort.by(Sort.Direction.DESC, "id");
 
@@ -215,7 +220,8 @@ public class EventServiceImpl implements EventService {
         where.and(byPublishState);
 
         if (!text.isBlank()) {
-            BooleanExpression byText = QEvent.event.annotation.containsIgnoreCase(text).or(QEvent.event.description.containsIgnoreCase(text));
+            BooleanExpression byText = QEvent.event.annotation.containsIgnoreCase(text)
+                    .or(QEvent.event.description.containsIgnoreCase(text));
             where.and(byText);
         }
 
@@ -249,7 +255,8 @@ public class EventServiceImpl implements EventService {
         addViewsAndConfirmedRequestsForEvents(events);
 
         if (onlyAvailable) {
-            events = events.stream().filter(event -> event.getConfirmedRequest() != event.getParticipantLimit()).collect(Collectors.toList());
+            events = events.stream().filter(event -> event.getConfirmedRequest() != event.getParticipantLimit())
+                    .collect(Collectors.toList());
         }
 
         return EventMapper.toListOfEventShortDto(events);
@@ -258,7 +265,8 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transient
     public EventFullDto getEventById(long eventId) {
-        Event event = eventRepository.findById(eventId).orElseThrow(() -> new NotFoundException(String.format("Event with id=%d was not found", eventId)));
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new NotFoundException(String.format("Event with id=%d was not found", eventId)));
 
         if (!event.getState().equals(EventState.PUBLISHED)) {
             throw new NotFoundException("Event is not available because it has not been published yet");
@@ -273,7 +281,8 @@ public class EventServiceImpl implements EventService {
         List<String> uris = ids.stream().map(id -> String.format("/events/%d", id)).collect(Collectors.toList());
         List<StatResponseDto> stats;
 
-        stats = statClient.getStats(DateTimeMapper.fromLocalDateTime(LocalDateTime.now().minusYears(10)), DateTimeMapper.fromLocalDateTime(LocalDateTime.now().plusYears(10)), uris, true);
+        stats = statClient.getStats(DateTimeMapper.fromLocalDateTime(LocalDateTime.now()
+                .minusYears(10)), DateTimeMapper.fromLocalDateTime(LocalDateTime.now().plusYears(10)), uris, true);
 
         Map<Long, Long> hits = new HashMap<>();
         for (StatResponseDto stat : stats) {
@@ -292,7 +301,8 @@ public class EventServiceImpl implements EventService {
             event.setViews(hits.getOrDefault(event.getId(), 0L));
         }
 
-        Map<Long, Long> confirmedRequests = requestRepository.findAllConfirmedRequestsByEventIds(ids, RequestStatus.CONFIRMED).stream().collect(Collectors.toMap(RequestCountDto::getId, RequestCountDto::getCount));
+        Map<Long, Long> confirmedRequests = requestRepository.findAllConfirmedRequestsByEventIds(ids, RequestStatus.CONFIRMED)
+                .stream().collect(Collectors.toMap(RequestCountDto::getId, RequestCountDto::getCount));
 
         confirmedRequests.entrySet().forEach(entry -> {
             System.out.println("TESTING TEST: " + entry);

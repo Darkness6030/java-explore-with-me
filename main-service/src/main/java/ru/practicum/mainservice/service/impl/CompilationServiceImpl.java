@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 import ru.practicum.mainservice.dto.compilation.*;
 import ru.practicum.mainservice.exception.NotFoundException;
 import ru.practicum.mainservice.mapper.CompilationMapper;
@@ -14,11 +13,10 @@ import ru.practicum.mainservice.pagination.OffsetBasedPageRequest;
 import ru.practicum.mainservice.repository.*;
 import ru.practicum.mainservice.service.CompilationService;
 
-import javax.validation.Valid;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Validated
+
 @Service
 @RequiredArgsConstructor
 public class CompilationServiceImpl implements CompilationService {
@@ -27,7 +25,7 @@ public class CompilationServiceImpl implements CompilationService {
 
     @Transactional
     @Override
-    public @Valid CompilationDto createCompilation(CompilationCreationDto compilationCreationDto) {
+    public CompilationDto createCompilation(CompilationCreationDto compilationCreationDto) {
         Set<Long> idEvents = compilationCreationDto.getEvents();
         Set<Event> events = new HashSet<>();
 
@@ -55,8 +53,10 @@ public class CompilationServiceImpl implements CompilationService {
 
     @Transactional
     @Override
-    public @Valid CompilationDto updateCompilation(int compId, UpdateCompilationRequestDto updateCompilationRequestDto) {
-        Compilation compilation = compilationRepository.findById(compId).orElseThrow(() -> new NotFoundException(String.format("Compilation with id=%d was not found", compId)));
+    public CompilationDto updateCompilation(int compId,
+                                            UpdateCompilationRequestDto updateCompilationRequestDto) {
+        Compilation compilation = compilationRepository.findById(compId)
+                .orElseThrow(() -> new NotFoundException(String.format("Compilation with id=%d was not found", compId)));
 
         Set<Long> idEvents = updateCompilationRequestDto.getEvents();
         Set<Event> events = new HashSet<>();
@@ -87,7 +87,8 @@ public class CompilationServiceImpl implements CompilationService {
 
     @Override
     public CompilationDto getCompilationById(int compId) {
-        Compilation compilation = compilationRepository.findById(compId).orElseThrow(() -> new NotFoundException(String.format("Compilation with id=%d was not found", compId)));
+        Compilation compilation = compilationRepository.findById(compId)
+                .orElseThrow(() -> new NotFoundException(String.format("Compilation with id=%d was not found", compId)));
 
         return CompilationMapper.toCompilationDto(compilation);
     }

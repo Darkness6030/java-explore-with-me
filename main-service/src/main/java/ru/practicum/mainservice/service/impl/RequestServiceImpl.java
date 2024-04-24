@@ -3,7 +3,6 @@ package ru.practicum.mainservice.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 import ru.practicum.mainservice.dto.request.*;
 import ru.practicum.mainservice.exception.*;
 import ru.practicum.mainservice.mapper.RequestMapper;
@@ -12,10 +11,9 @@ import ru.practicum.mainservice.repository.RequestRepository;
 import ru.practicum.mainservice.service.RequestService;
 import ru.practicum.mainservice.valid.Validator;
 
-import javax.validation.Valid;
 import java.util.*;
 
-@Validated
+
 @Service
 @RequiredArgsConstructor
 public class RequestServiceImpl implements RequestService {
@@ -75,7 +73,8 @@ public class RequestServiceImpl implements RequestService {
     @Transactional
     @Override
     public RequestDto cancelRequest(long userId, long requestId) {
-        Request request = requestRepository.findById(requestId).orElseThrow(() -> new NotFoundException(String.format("Request with id=%d was not found", requestId)));
+        Request request = requestRepository.findById(requestId)
+                .orElseThrow(() -> new NotFoundException(String.format("Request with id=%d was not found", requestId)));
 
         if (request.getRequester().getId() != userId) {
             throw new ConflictException(String.format("User with id: %d is not the requester" + " of the event and cannot cancel the request", userId));
@@ -88,11 +87,13 @@ public class RequestServiceImpl implements RequestService {
 
     @Transactional
     @Override
-    public @Valid RequestStatusUpdateResultDto updateRequestsStatus(long userId, long eventId, RequestStatusUpdateRequestDto updateDto) {
+    public RequestStatusUpdateResultDto updateRequestsStatus(long userId, long eventId,
+                                                             RequestStatusUpdateRequestDto updateDto) {
         Event event = validator.findUserEventOrThrow(eventId, userId);
         List<Request> requests = requestRepository.findAllByIdIn(updateDto.getRequestIds());
 
-        RequestStatusUpdateResultDto resultDto = RequestStatusUpdateResultDto.builder().confirmedRequests(new ArrayList<>()).rejectedRequests(new ArrayList<>()).build();
+        RequestStatusUpdateResultDto resultDto = RequestStatusUpdateResultDto.builder()
+                .confirmedRequests(new ArrayList<>()).rejectedRequests(new ArrayList<>()).build();
 
         if (!event.isRequestModeration() || event.getParticipantLimit() == 0) {
             resultDto.getConfirmedRequests().addAll(RequestMapper.toListOfRequestDto(requests));
