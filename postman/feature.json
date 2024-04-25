@@ -119,7 +119,7 @@
           "response": []
         },
         {
-          "name": "User 138 create",
+          "name": "User 140 create",
           "event": [
             {
               "listen": "test",
@@ -133,17 +133,17 @@
                   "pm.test(\"Test user 'id' field\", function () {",
                   "    var jsonData = pm.response.json();",
                   "    pm.expect(jsonData).to.have.property('id');",
-                  "    pm.expect(jsonData.id, '\"id\" must be 138').to.eql(138);",
+                  "    pm.expect(jsonData.id, '\"id\" must be 140').to.eql(140);",
                   "});",
                   "pm.test(\"Test user 'email' field\", function () {",
                   "    var jsonData = pm.response.json();",
                   "    pm.expect(jsonData).to.have.property('email');",
-                  "    pm.expect(jsonData.email, '\"email\" must be \"user138@user.com\"').to.eql('user138@user.com');",
+                  "    pm.expect(jsonData.email, '\"email\" must be \"user140@user.com\"').to.eql('user140@user.com');",
                   "});",
                   "pm.test(\"Test user 'name' field\", function () {",
                   "    var jsonData = pm.response.json();",
                   "    pm.expect(jsonData).to.have.property('name');",
-                  "    pm.expect(jsonData.name, '\"name\" must be \"user138\"').to.eql('user138');",
+                  "    pm.expect(jsonData.name, '\"name\" must be \"user140\"').to.eql('user140');",
                   "});"
                 ],
                 "type": "text/javascript"
