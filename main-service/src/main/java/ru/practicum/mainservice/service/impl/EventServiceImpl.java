@@ -54,12 +54,14 @@ public class EventServiceImpl implements EventService {
                     .equals(stateAction)) {
                 throw new ConflictException("Field StateAction is incorrect");
             }
+
             state = StateAction.valueOf(stateAction);
 
             if (!event.getState()
                     .equals(EventState.PENDING) && state.equals(StateAction.PUBLISH_EVENT)) {
                 throw new ConflictException("Event must be PENDING state to be published");
             }
+
             if (event.getState()
                     .equals(EventState.PUBLISHED) && state.equals(StateAction.REJECT_EVENT)) {
                 throw new ConflictException("Event cannot be canceled if already published");
