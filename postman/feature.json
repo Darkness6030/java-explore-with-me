@@ -166,7 +166,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"user138\",\n    \"email\": \"user138@user.com\"\n}"
+              "raw": "{\n    \"name\": \"user140\",\n    \"email\": \"user140@user.com\"\n}"
             },
             "url": "{{baseUrl}}/admin/users"
           },
@@ -380,7 +380,7 @@
           "response": []
         },
         {
-          "name": "Event 108 by User 138",
+          "name": "Event 108 by User 140",
           "event": [
             {
               "listen": "prerequest",
@@ -471,7 +471,7 @@
               "variable": [
                 {
                   "key": "userId",
-                  "value": "138",
+                  "value": "140",
                   "description": "(Required) current user id"
                 }
               ]
@@ -1093,7 +1093,7 @@
           "response": []
         },
         {
-          "name": "User 138 Event 107 Сomment 4",
+          "name": "User 140 Event 107 Сomment 4",
           "event": [
             {
               "listen": "test",
@@ -1165,7 +1165,7 @@
               "variable": [
                 {
                   "key": "userId",
-                  "value": "138"
+                  "value": "140"
                 },
                 {
                   "key": "eventId",
@@ -1177,7 +1177,7 @@
           "response": []
         },
         {
-          "name": "User 138 Event 106 cancelled Comment",
+          "name": "User 140 Event 106 cancelled Comment",
           "event": [
             {
               "listen": "test",
@@ -1234,7 +1234,7 @@
               "variable": [
                 {
                   "key": "userId",
-                  "value": "138"
+                  "value": "140"
                 },
                 {
                   "key": "eventId",
@@ -1889,7 +1889,7 @@
           "response": []
         },
         {
-          "name": "Comment 4 Deleted by User 138 for Event 107",
+          "name": "Comment 4 Deleted by User 140 for Event 107",
           "event": [
             {
               "listen": "test",
@@ -1933,7 +1933,7 @@
               "variable": [
                 {
                   "key": "userId",
-                  "value": "138"
+                  "value": "140"
                 },
                 {
                   "key": "eventId",
@@ -2016,7 +2016,7 @@
           "response": []
         },
         {
-          "name": "User 138 Comments",
+          "name": "User 140 Comments",
           "event": [
             {
               "listen": "test",
@@ -2061,7 +2061,7 @@
               "variable": [
                 {
                   "key": "userId",
-                  "value": "138"
+                  "value": "140"
                 }
               ]
             }
