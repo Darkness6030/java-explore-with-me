@@ -131,7 +131,7 @@ public class EventServiceImpl implements EventService {
         User user = validator.findUserOrThrow(userId);
 
         int categoryId = eventCreationDto.getCategory();
-        Category category = validator.findCatOrThrow(categoryId);
+        Category category = validator.findCategoryOrThrow(categoryId);
 
         Event event = EventMapper.toEvent(eventCreationDto);
         event.setEventDate(eventDate);
@@ -191,7 +191,7 @@ public class EventServiceImpl implements EventService {
 
         Category category = null;
         if (updateEventRequestDto.getCategory() != null) {
-            category = validator.findCatOrThrow(updateEventRequestDto.getCategory());
+            category = validator.findCategoryOrThrow(updateEventRequestDto.getCategory());
         }
 
         Event event = validator.findUserEventOrThrow(eventId, userId);
