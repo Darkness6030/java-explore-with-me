@@ -119,7 +119,7 @@
           "response": []
         },
         {
-          "name": "User 138 create",
+          "name": "User 140 create",
           "event": [
             {
               "listen": "test",
@@ -133,17 +133,17 @@
                   "pm.test(\"Test user 'id' field\", function () {",
                   "    var jsonData = pm.response.json();",
                   "    pm.expect(jsonData).to.have.property('id');",
-                  "    pm.expect(jsonData.id, '\"id\" must be 138').to.eql(138);",
+                  "    pm.expect(jsonData.id, '\"id\" must be 140').to.eql(140);",
                   "});",
                   "pm.test(\"Test user 'email' field\", function () {",
                   "    var jsonData = pm.response.json();",
                   "    pm.expect(jsonData).to.have.property('email');",
-                  "    pm.expect(jsonData.email, '\"email\" must be \"user138@user.com\"').to.eql('user138@user.com');",
+                  "    pm.expect(jsonData.email, '\"email\" must be \"user140@user.com\"').to.eql('user140@user.com');",
                   "});",
                   "pm.test(\"Test user 'name' field\", function () {",
                   "    var jsonData = pm.response.json();",
                   "    pm.expect(jsonData).to.have.property('name');",
-                  "    pm.expect(jsonData.name, '\"name\" must be \"user138\"').to.eql('user138');",
+                  "    pm.expect(jsonData.name, '\"name\" must be \"user140\"').to.eql('user140');",
                   "});"
                 ],
                 "type": "text/javascript"
@@ -166,7 +166,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"user138\",\n    \"email\": \"user138@user.com\"\n}"
+              "raw": "{\n    \"name\": \"user140\",\n    \"email\": \"user140@user.com\"\n}"
             },
             "url": "{{baseUrl}}/admin/users"
           },
@@ -178,7 +178,7 @@
       "name": "Events",
       "item": [
         {
-          "name": "Event 106 by User 138",
+          "name": "Event 107 by User 138",
           "event": [
             {
               "listen": "prerequest",
@@ -279,7 +279,7 @@
           "response": []
         },
         {
-          "name": "Event 107 by User 139",
+          "name": "Event 108 by User 139",
           "event": [
             {
               "listen": "prerequest",
@@ -380,7 +380,7 @@
           "response": []
         },
         {
-          "name": "Event 108 by User 138",
+          "name": "Event 109 by User 140",
           "event": [
             {
               "listen": "prerequest",
@@ -471,7 +471,7 @@
               "variable": [
                 {
                   "key": "userId",
-                  "value": "138",
+                  "value": "140",
                   "description": "(Required) current user id"
                 }
               ]
@@ -481,7 +481,7 @@
           "response": []
         },
         {
-          "name": "Event 109 by User 139",
+          "name": "Event 110 by User 139",
           "event": [
             {
               "listen": "prerequest",
@@ -582,7 +582,7 @@
           "response": []
         },
         {
-          "name": "Event 106 set Cancel",
+          "name": "Event 107 set Cancel",
           "event": [
             {
               "listen": "prerequest",
@@ -641,94 +641,6 @@
             "body": {
               "mode": "raw",
               "raw": "{\r\n    \"stateAction\": \"REJECT_EVENT\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/admin/events/:eventId",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "admin",
-                "events",
-                ":eventId"
-              ],
-              "variable": [
-                {
-                  "key": "eventId",
-                  "value": "106",
-                  "description": "(Required)"
-                }
-              ]
-            },
-            "description": "Обратите внимание:\n - дата начала события должна быть не ранее чем за час от даты публикации.\n- событие должно быть в состоянии ожидания публикации"
-          },
-          "response": []
-        },
-        {
-          "name": "Event 107 set Published",
-          "event": [
-            {
-              "listen": "prerequest",
-              "script": {
-                "exec": [
-                  ""
-                ],
-                "type": "text/javascript"
-              }
-            },
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Response must have status 200 and json body response\", function () {\r",
-                  "    pm.response.to.be.ok;    \r",
-                  "    pm.response.to.be.withBody;\r",
-                  "    pm.response.to.be.json;\r",
-                  "});\r",
-                  "\r",
-                  "const target = pm.response.json();\r",
-                  "\r",
-                  "pm.test(\"Event must contain fields: id, title, annotation, category, paid, eventDate, initiator, description, participantLimit, state, createdOn, publishedOn, location, requestModeration\", function () {\r",
-                  "    pm.expect(target).to.have.property('id');\r",
-                  "    pm.expect(target).to.have.property('title');\r",
-                  "    pm.expect(target).to.have.property('annotation');\r",
-                  "    pm.expect(target).to.have.property('category');\r",
-                  "    pm.expect(target).to.have.property('paid');\r",
-                  "    pm.expect(target).to.have.property('eventDate');\r",
-                  "    pm.expect(target).to.have.property('initiator');\r",
-                  "    pm.expect(target).to.have.property('description');\r",
-                  "    pm.expect(target).to.have.property('participantLimit');\r",
-                  "    pm.expect(target).to.have.property('state');\r",
-                  "    pm.expect(target).to.have.property('createdOn');\r",
-                  "    pm.expect(target).to.have.property('publishedOn');\r",
-                  "    pm.expect(target).to.have.property('location');\r",
-                  "    pm.expect(target).to.have.property('requestModeration');\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Request data must be equal to response data\", function () {\r",
-                  "    pm.expect(target.state).equal(\"PUBLISHED\", 'Event state must change from PENDING to PUBLISHED when stateAction equals PUBLISH_EVENT');\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "PATCH",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"stateAction\": \"PUBLISH_EVENT\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -837,6 +749,94 @@
                 {
                   "key": "eventId",
                   "value": "108",
+                  "description": "(Required)"
+                }
+              ]
+            },
+            "description": "Обратите внимание:\n - дата начала события должна быть не ранее чем за час от даты публикации.\n- событие должно быть в состоянии ожидания публикации"
+          },
+          "response": []
+        },
+        {
+          "name": "Event 109 set Published",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Response must have status 200 and json body response\", function () {\r",
+                  "    pm.response.to.be.ok;    \r",
+                  "    pm.response.to.be.withBody;\r",
+                  "    pm.response.to.be.json;\r",
+                  "});\r",
+                  "\r",
+                  "const target = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Event must contain fields: id, title, annotation, category, paid, eventDate, initiator, description, participantLimit, state, createdOn, publishedOn, location, requestModeration\", function () {\r",
+                  "    pm.expect(target).to.have.property('id');\r",
+                  "    pm.expect(target).to.have.property('title');\r",
+                  "    pm.expect(target).to.have.property('annotation');\r",
+                  "    pm.expect(target).to.have.property('category');\r",
+                  "    pm.expect(target).to.have.property('paid');\r",
+                  "    pm.expect(target).to.have.property('eventDate');\r",
+                  "    pm.expect(target).to.have.property('initiator');\r",
+                  "    pm.expect(target).to.have.property('description');\r",
+                  "    pm.expect(target).to.have.property('participantLimit');\r",
+                  "    pm.expect(target).to.have.property('state');\r",
+                  "    pm.expect(target).to.have.property('createdOn');\r",
+                  "    pm.expect(target).to.have.property('publishedOn');\r",
+                  "    pm.expect(target).to.have.property('location');\r",
+                  "    pm.expect(target).to.have.property('requestModeration');\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Request data must be equal to response data\", function () {\r",
+                  "    pm.expect(target.state).equal(\"PUBLISHED\", 'Event state must change from PENDING to PUBLISHED when stateAction equals PUBLISH_EVENT');\r",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"stateAction\": \"PUBLISH_EVENT\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/events/:eventId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "events",
+                ":eventId"
+              ],
+              "variable": [
+                {
+                  "key": "eventId",
+                  "value": "109",
                   "description": "(Required) id события"
                 }
               ]
@@ -851,7 +851,7 @@
       "name": "Comments",
       "item": [
         {
-          "name": "User 138 Event 107 Сomment 1",
+          "name": "User 138 Event 108 Сomment 1",
           "event": [
             {
               "listen": "test",
@@ -922,7 +922,7 @@
                 },
                 {
                   "key": "eventId",
-                  "value": "107"
+                  "value": "108"
                 }
               ]
             }
@@ -930,7 +930,7 @@
           "response": []
         },
         {
-          "name": "User 139 Event 108 Сomment 2",
+          "name": "User 139 Event 109 Сomment 2",
           "event": [
             {
               "listen": "test",
@@ -1001,7 +1001,7 @@
                 },
                 {
                   "key": "eventId",
-                  "value": "108"
+                  "value": "109"
                 }
               ]
             }
@@ -1009,7 +1009,7 @@
           "response": []
         },
         {
-          "name": "User 139 owner Event 107 Сomment 3",
+          "name": "User 139 owner Event 108 Сomment 3",
           "event": [
             {
               "listen": "test",
@@ -1085,7 +1085,7 @@
                 },
                 {
                   "key": "eventId",
-                  "value": "107"
+                  "value": "108"
                 }
               ]
             }
@@ -1093,7 +1093,7 @@
           "response": []
         },
         {
-          "name": "User 138 Event 107 Сomment 4",
+          "name": "User 140 Event 108 Сomment 4",
           "event": [
             {
               "listen": "test",
@@ -1165,11 +1165,11 @@
               "variable": [
                 {
                   "key": "userId",
-                  "value": "138"
+                  "value": "140"
                 },
                 {
                   "key": "eventId",
-                  "value": "107"
+                  "value": "108"
                 }
               ]
             }
@@ -1177,7 +1177,7 @@
           "response": []
         },
         {
-          "name": "User 138 Event 106 cancelled Comment",
+          "name": "User 140 Event 107 cancelled Comment",
           "event": [
             {
               "listen": "test",
@@ -1234,11 +1234,11 @@
               "variable": [
                 {
                   "key": "userId",
-                  "value": "138"
+                  "value": "140"
                 },
                 {
                   "key": "eventId",
-                  "value": "106"
+                  "value": "107"
                 }
               ]
             }
@@ -1246,7 +1246,7 @@
           "response": []
         },
         {
-          "name": "User 150 non-existent Event 107 Comment",
+          "name": "User 150 non-existent Event 108 Comment",
           "event": [
             {
               "listen": "test",
@@ -1307,7 +1307,7 @@
                 },
                 {
                   "key": "eventId",
-                  "value": "107"
+                  "value": "108"
                 }
               ]
             }
@@ -1542,7 +1542,7 @@
           "response": []
         },
         {
-          "name": "User 138 Event 107 Comment",
+          "name": "User 138 Event 108 Comment",
           "event": [
             {
               "listen": "test",
@@ -1565,7 +1565,7 @@
                   "\r",
                   "pm.test(\"Request data must be equal to response data\", function () {\r",
                   "    pm.expect(target.user.id).equal(138, 'User id in request and response must be equal');\r",
-                  "    pm.expect(target.event.id).equal(107, 'Event id in request and response must be equal');\r",
+                  "    pm.expect(target.event.id).equal(108, 'Event id in request and response must be equal');\r",
                   "});"
                 ],
                 "type": "text/javascript"
@@ -1604,7 +1604,7 @@
                 },
                 {
                   "key": "eventId",
-                  "value": "107"
+                  "value": "108"
                 },
                 {
                   "key": "commentId",
@@ -1616,7 +1616,7 @@
           "response": []
         },
         {
-          "name": "User 139 owner Event 107 Comment",
+          "name": "User 139 owner Event 108 Comment",
           "event": [
             {
               "listen": "test",
@@ -1639,7 +1639,7 @@
                   "\r",
                   "pm.test(\"Request data must be equal to response data\", function () {\r",
                   "    pm.expect(target.user.id).equal(139, 'User id in request and response must be equal');\r",
-                  "    pm.expect(target.event.id).equal(107, 'Event id in request and response must be equal');\r",
+                  "    pm.expect(target.event.id).equal(108, 'Event id in request and response must be equal');\r",
                   "});"
                 ],
                 "type": "text/javascript"
@@ -1678,7 +1678,7 @@
                 },
                 {
                   "key": "eventId",
-                  "value": "107"
+                  "value": "108"
                 },
                 {
                   "key": "commentId",
@@ -1690,7 +1690,7 @@
           "response": []
         },
         {
-          "name": "User 139 Event 107 Comment 50 non-existent",
+          "name": "User 139 Event 108 Comment 50 non-existent",
           "event": [
             {
               "listen": "test",
@@ -1738,7 +1738,7 @@
                 },
                 {
                   "key": "eventId",
-                  "value": "107"
+                  "value": "108"
                 },
                 {
                   "key": "commentId",
@@ -1750,7 +1750,7 @@
           "response": []
         },
         {
-          "name": "User 139 Event 108 Сomment 5",
+          "name": "User 139 Event 109 Сomment 5",
           "event": [
             {
               "listen": "test",
@@ -1821,7 +1821,7 @@
                 },
                 {
                   "key": "eventId",
-                  "value": "108"
+                  "value": "109"
                 }
               ]
             }
@@ -1829,7 +1829,7 @@
           "response": []
         },
         {
-          "name": "Comment 5 Pending by User 139 for Event 108",
+          "name": "Comment 5 Pending by User 139 for Event 109",
           "event": [
             {
               "listen": "test",
@@ -1877,7 +1877,7 @@
                 },
                 {
                   "key": "eventId",
-                  "value": "108"
+                  "value": "109"
                 },
                 {
                   "key": "commentId",
@@ -1889,7 +1889,7 @@
           "response": []
         },
         {
-          "name": "Comment 4 Deleted by User 138 for Event 107",
+          "name": "Comment 4 Deleted by User 140 for Event 108",
           "event": [
             {
               "listen": "test",
@@ -1933,11 +1933,11 @@
               "variable": [
                 {
                   "key": "userId",
-                  "value": "138"
+                  "value": "140"
                 },
                 {
                   "key": "eventId",
-                  "value": "107"
+                  "value": "108"
                 },
                 {
                   "key": "commentId",
@@ -2016,7 +2016,7 @@
           "response": []
         },
         {
-          "name": "User 138 Comments",
+          "name": "User 140 Comments",
           "event": [
             {
               "listen": "test",
@@ -2061,7 +2061,7 @@
               "variable": [
                 {
                   "key": "userId",
-                  "value": "138"
+                  "value": "140"
                 }
               ]
             }
@@ -2069,7 +2069,7 @@
           "response": []
         },
         {
-          "name": "User 139 Event 107 Comments",
+          "name": "User 139 Event 108 Comments",
           "event": [
             {
               "listen": "test",
@@ -2134,7 +2134,7 @@
                 },
                 {
                   "key": "eventId",
-                  "value": "107"
+                  "value": "108"
                 }
               ]
             }
@@ -2142,7 +2142,7 @@
           "response": []
         },
         {
-          "name": "User 139 Event 105 Comments",
+          "name": "User 139 Event 106 Comments",
           "event": [
             {
               "listen": "test",
@@ -2194,7 +2194,7 @@
                 },
                 {
                   "key": "eventId",
-                  "value": "105"
+                  "value": "106"
                 }
               ]
             }
@@ -2202,7 +2202,7 @@
           "response": []
         },
         {
-          "name": "Comment 1 by User 138 for Event 107",
+          "name": "Comment 1 by User 138 for Event 108",
           "event": [
             {
               "listen": "test",
@@ -2225,7 +2225,7 @@
                   "\r",
                   "pm.test(\"Request data must be equal to response data\", function () {\r",
                   "    pm.expect(target.user.id).equal(138, 'User id in request and response must be equal');\r",
-                  "    pm.expect(target.event.id).equal(107, 'Event id in request and response must be equal');\r",
+                  "    pm.expect(target.event.id).equal(108, 'Event id in request and response must be equal');\r",
                   "});"
                 ],
                 "type": "text/javascript"
@@ -2273,7 +2273,7 @@
                 },
                 {
                   "key": "eventId",
-                  "value": "107"
+                  "value": "108"
                 },
                 {
                   "key": "commentId",
@@ -2285,7 +2285,7 @@
           "response": []
         },
         {
-          "name": "Comment 1 by User 139 not commenter for Event 107",
+          "name": "Comment 1 by User 139 not commenter for Event 108",
           "event": [
             {
               "listen": "test",
@@ -2342,7 +2342,7 @@
                 },
                 {
                   "key": "eventId",
-                  "value": "107"
+                  "value": "108"
                 },
                 {
                   "key": "commentId",
@@ -2354,7 +2354,7 @@
           "response": []
         },
         {
-          "name": "Comment 2 by User 138 not commenter for Event 108",
+          "name": "Comment 2 by User 138 not commenter for Event 109",
           "event": [
             {
               "listen": "test",
@@ -2401,7 +2401,7 @@
                 },
                 {
                   "key": "eventId",
-                  "value": "108"
+                  "value": "109"
                 },
                 {
                   "key": "commentId",
@@ -2413,7 +2413,7 @@
           "response": []
         },
         {
-          "name": "Comment 2 by User 139 for Event 108",
+          "name": "Comment 2 by User 139 for Event 109",
           "event": [
             {
               "listen": "test",
@@ -2461,7 +2461,7 @@
                 },
                 {
                   "key": "eventId",
-                  "value": "108"
+                  "value": "109"
                 },
                 {
                   "key": "commentId",
@@ -2473,7 +2473,7 @@
           "response": []
         },
         {
-          "name": "Comment 2 deleted by User 139 for Event 108",
+          "name": "Comment 2 deleted by User 139 for Event 109",
           "event": [
             {
               "listen": "test",
@@ -2523,7 +2523,7 @@
                 },
                 {
                   "key": "eventId",
-                  "value": "108"
+                  "value": "109"
                 },
                 {
                   "key": "commentId",
@@ -2732,7 +2732,7 @@
           "response": []
         },
         {
-          "name": "Admin Comments by events 107, 108",
+          "name": "Admin Comments by events 108, 109",
           "event": [
             {
               "listen": "test",
@@ -2800,7 +2800,7 @@
                 },
                 {
                   "key": "events",
-                  "value": "107,108"
+                  "value": "108,109"
                 },
                 {
                   "key": "rangeStart",
